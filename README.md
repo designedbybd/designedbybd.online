@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -16,10 +16,8 @@
       --card-bg: #2e1d3d;
       --glass: rgba(46,29,61,0.6);
     }
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--primary);
       color: var(--light);
@@ -28,7 +26,6 @@
       overflow-x: hidden;
       cursor: none;
     }
-
     /* ── CUSTOM CURSOR ── */
     #cursor {
       position: fixed;
@@ -53,7 +50,6 @@
       width: 56px; height: 56px;
       border-color: var(--accent);
     }
-
     /* ── NOISE OVERLAY ── */
     body::before {
       content: '';
@@ -64,7 +60,6 @@
       z-index: 9999;
       opacity: 0.35;
     }
-
     /* ── PROGRESS BAR ── */
     #progress {
       position: fixed;
@@ -75,7 +70,6 @@
       width: 0%;
       transition: width 0.1s;
     }
-
     /* ── NAV ── */
     nav {
       position: fixed;
@@ -95,13 +89,22 @@
       background: rgba(35,19,45,0.95);
     }
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
       text-decoration: none;
       transition: opacity 0.3s;
+    }
+    .nav-logo:hover { opacity: 0.85; }
+    .nav-logo img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(201,169,110,0.3));
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .nav-logo:hover img {
+      filter: drop-shadow(0 0 14px rgba(201,169,110,0.55));
+      transform: scale(1.04);
     }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
@@ -126,7 +129,6 @@
     .nav-links a:hover::after { width: 100%; }
     .nav-links a.active { color: var(--accent); }
     .nav-links a.active::after { width: 100%; }
-
     /* ── MOBILE NAV TOGGLE ── */
     .nav-toggle {
       display: none;
@@ -144,7 +146,6 @@
     .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .nav-toggle.open span:nth-child(2) { opacity: 0; }
     .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
     .mobile-menu {
       display: none;
       position: fixed;
@@ -174,7 +175,6 @@
       transition: color 0.3s;
     }
     .mobile-menu a:hover { color: var(--accent); }
-
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
@@ -216,7 +216,6 @@
       0%,100% { transform: translate(0,0); }
       50% { transform: translate(20px,-30px); }
     }
-
     .hero-content { max-width: 720px; position: relative; z-index: 1; }
     .hero-tag {
       display: inline-flex;
@@ -244,7 +243,6 @@
       0%,100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(0.7); }
     }
-
     .hero-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.8rem, 8.5vw, 7.5rem);
@@ -260,7 +258,6 @@
       -webkit-text-stroke: 1px rgba(255,255,255,0.3);
       color: transparent;
     }
-
     .hero-title {
       margin-top: 1.8rem;
       font-size: clamp(0.88rem, 1.4vw, 1rem);
@@ -270,7 +267,6 @@
       opacity: 0;
       animation: fadeUp 0.9s 0.3s ease forwards;
     }
-
     .hero-cta {
       margin-top: 2.5rem;
       display: flex;
@@ -279,7 +275,6 @@
       opacity: 0;
       animation: fadeUp 0.9s 0.4s ease forwards;
     }
-
     .hero-scroll {
       position: absolute;
       bottom: 2.5rem;
@@ -309,7 +304,6 @@
       from { opacity: 0; transform: translateY(35px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     /* ── BUTTONS ── */
     .btn-primary {
       background: var(--accent);
@@ -338,7 +332,6 @@
       transform: translateY(-2px);
       box-shadow: 0 10px 30px rgba(201,169,110,0.35);
     }
-
     .btn-outline {
       border: 1px solid rgba(201,169,110,0.4);
       color: var(--accent);
@@ -355,7 +348,6 @@
       background: rgba(201,169,110,0.08);
       transform: translateY(-2px);
     }
-
     /* ── SECTIONS ── */
     section { padding: 7rem 4rem; }
     .section-label {
@@ -379,7 +371,6 @@
       background: var(--accent);
       margin-bottom: 3rem;
     }
-
     /* ── ABOUT ── */
     #about {
       display: grid;
@@ -426,7 +417,6 @@
       font-variant-numeric: tabular-nums;
     }
     .stat-label { font-size: 0.76rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.5rem; }
-
     /* ── SKILLS TAGS ── */
     .skills-tags {
       display: flex;
@@ -449,7 +439,6 @@
       border-color: rgba(201,169,110,0.4);
       background: rgba(201,169,110,0.05);
     }
-
     /* ── SERVICES ── */
     #services { background: rgba(255,255,255,0.012); }
     .services-grid {
@@ -512,10 +501,8 @@
       position: relative;
       z-index: 1;
     }
-
     /* ── COUNTER ANIM ── */
     .count-up { display: inline-block; }
-
     /* ── PORTFOLIO ── */
     #portfolio { position: relative; }
     .portfolio-filter {
@@ -542,7 +529,6 @@
       border-color: rgba(201,169,110,0.5);
       background: rgba(201,169,110,0.07);
     }
-
     .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -562,7 +548,6 @@
     .portfolio-item:hover { transform: scale(1.03); }
     .portfolio-item:hover .portfolio-overlay { opacity: 1; }
     .portfolio-item:hover .p-icon { transform: scale(1.15); }
-
     .portfolio-placeholder {
       width: 100%; height: 100%;
       display: flex;
@@ -622,10 +607,8 @@
       color: var(--white);
       border-color: rgba(255,255,255,0.5);
     }
-
     .portfolio-cta { margin-top: 3rem; text-align: center; }
-
-    /* ── TESTIMONIAL / MARQUEE ── */
+    /* ── MARQUEE ── */
     .marquee-wrap {
       overflow: hidden;
       padding: 2rem 0;
@@ -662,7 +645,6 @@
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
-
     /* ── CONTACT ── */
     #contact { background: rgba(255,255,255,0.012); }
     .contact-inner {
@@ -707,7 +689,6 @@
       transition: background 0.3s;
     }
     .contact-link:hover .contact-link-icon { background: rgba(201,169,110,0.15); }
-
     .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
     .form-group label {
@@ -736,7 +717,6 @@
       box-shadow: 0 0 0 3px rgba(201,169,110,0.06);
     }
     .form-group textarea { min-height: 140px; }
-
     .form-submit {
       background: var(--accent);
       color: var(--primary);
@@ -766,7 +746,6 @@
       box-shadow: 0 10px 30px rgba(201,169,110,0.3);
     }
     .form-submit.sent { background: #4caf7d; color: white; pointer-events: none; }
-
     /* ── FOOTER ── */
     footer {
       padding: 2.5rem 4rem;
@@ -786,7 +765,6 @@
       transition: color 0.3s;
     }
     .footer-socials a:hover { color: var(--accent); }
-
     /* ── BACK TO TOP ── */
     #back-top {
       position: fixed;
@@ -807,7 +785,6 @@
     }
     #back-top.visible { opacity: 1; pointer-events: all; }
     #back-top:hover { background: rgba(201,169,110,0.22); transform: translateY(-3px); }
-
     /* ── REVEAL ── */
     .reveal {
       opacity: 0;
@@ -815,7 +792,6 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 1.2rem 2rem; }
@@ -837,24 +813,28 @@
       .about-stats { grid-template-columns: 1fr 1fr; }
       body { cursor: auto; }
       #cursor, #cursor-ring { display: none; }
+      .nav-logo img { height: 38px; }
     }
   </style>
 </head>
 <body>
-
   <!-- CURSOR -->
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
-
   <!-- PROGRESS -->
   <div id="progress"></div>
-
   <!-- BACK TO TOP -->
   <a href="#hero" id="back-top" aria-label="Back to top">↑</a>
-
   <!-- NAV -->
   <nav id="nav">
-    <a href="#hero" class="nav-logo">MB.</a>
+    <a href="#hero" class="nav-logo">
+      <img
+        src="https://drive.google.com/uc?export=view&id=1GQx1IvI5S12rBYK0oRh7V2e33REfvHHB"
+        alt="Mohamed Barakat Logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+      />
+      <span style="display:none; font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--accent); letter-spacing:0.05em;">MB.</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
@@ -865,7 +845,6 @@
       <span></span><span></span><span></span>
     </div>
   </nav>
-
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="#about" onclick="closeMobile()">About</a>
@@ -873,7 +852,6 @@
     <a href="#portfolio" onclick="closeMobile()">Work</a>
     <a href="#contact" onclick="closeMobile()">Contact</a>
   </div>
-
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg-circle c1"></div>
@@ -896,7 +874,6 @@
       <span>Scroll</span>
     </div>
   </section>
-
   <!-- MARQUEE -->
   <div class="marquee-wrap">
     <div class="marquee-track" id="marquee">
@@ -919,7 +896,6 @@
       <div class="marquee-item"><span class="marquee-dot"></span>Motion Graphics</div>
     </div>
   </div>
-
   <!-- ABOUT -->
   <section id="about">
     <div class="about-text reveal">
@@ -962,7 +938,6 @@
       </div>
     </div>
   </section>
-
   <!-- SERVICES -->
   <section id="services">
     <div class="reveal">
@@ -1003,7 +978,6 @@
       </div>
     </div>
   </section>
-
   <!-- PORTFOLIO -->
   <section id="portfolio">
     <div class="reveal">
@@ -1089,7 +1063,6 @@
       <a href="https://www.behance.net/mbarakat960b56" target="_blank" class="btn-primary">View Full Portfolio on Behance</a>
     </div>
   </section>
-
   <!-- CONTACT -->
   <section id="contact">
     <div class="reveal">
@@ -1144,7 +1117,6 @@
       </div>
     </div>
   </section>
-
   <!-- FOOTER -->
   <footer>
     <p>&copy;&nbsp;2026 Mohamed Barakat. All rights reserved.</p>
@@ -1154,19 +1126,16 @@
       <a href="https://www.linkedin.com/in/mohammedbarakat1/" target="_blank">LinkedIn</a>
     </div>
   </footer>
-
   <script>
     /* ── CURSOR ── */
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursor-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
-
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       cur.style.left = mx - 5 + 'px';
       cur.style.top  = my - 5 + 'px';
     });
-
     function animateRing() {
       rx += (mx - rx - 18) * 0.15;
       ry += (my - ry - 18) * 0.15;
@@ -1175,29 +1144,24 @@
       requestAnimationFrame(animateRing);
     }
     animateRing();
-
     document.querySelectorAll('a, button, .portfolio-item, .stat-item, .service-card, .filter-btn').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
-
     /* ── PROGRESS BAR ── */
     const prog = document.getElementById('progress');
     window.addEventListener('scroll', () => {
       const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
       prog.style.width = pct + '%';
     });
-
     /* ── NAV SHRINK + ACTIVE ── */
     const nav = document.getElementById('nav');
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
     const backTop  = document.getElementById('back-top');
-
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 50);
       backTop.classList.toggle('visible', window.scrollY > 400);
-
       let current = '';
       sections.forEach(s => {
         if (window.scrollY >= s.offsetTop - 200) current = s.id;
@@ -1206,7 +1170,6 @@
         a.classList.toggle('active', a.getAttribute('href') === '#' + current);
       });
     });
-
     /* ── MOBILE MENU ── */
     function toggleMobile() {
       const t = document.getElementById('navToggle');
@@ -1218,19 +1181,16 @@
       document.getElementById('navToggle').classList.remove('open');
       document.getElementById('mobileMenu').classList.remove('open');
     }
-
     /* ── SCROLL REVEAL ── */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
           setTimeout(() => entry.target.classList.add('visible'), i * 90);
-          // trigger count-up once visible
           entry.target.querySelectorAll('.count-up').forEach(el => animateCount(el));
         }
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
     /* ── COUNT UP ── */
     function animateCount(el) {
       if (el.dataset.done) return;
@@ -1246,7 +1206,6 @@
       }
       requestAnimationFrame(step);
     }
-
     /* ── PORTFOLIO FILTER ── */
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1263,7 +1222,6 @@
         });
       });
     });
-
     /* ── FORM SEND ── */
     function handleSend() {
       const name    = document.getElementById('f-name').value.trim();
