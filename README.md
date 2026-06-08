@@ -1,5 +1,4 @@
-cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -1284,5 +1283,3 @@ cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
   </script>
 </body>
 </html>
-HTMLEOF
-echo "Done"
