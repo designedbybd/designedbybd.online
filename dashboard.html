@@ -3,363 +3,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Site Dashboard — Mohamed Barakat</title>
+<title>Dashboard — Mohamed Barakat</title>
 <style>
-  :root {
-    --bg:#0f0a14; --surface:#1a1025; --surface2:#231337;
-    --border:rgba(201,169,110,.15); --accent:#c9a96e; --accent2:#9b6fc4;
-    --text:#e8e0f0; --muted:#8a7a9a; --red:#e05555; --green:#5dca82;
-    --radius:.6rem;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+:root{
+  --bg:#0f0a14;--surface:#1a1025;--s2:#231337;
+  --border:rgba(201,169,110,.15);--acc:#c9a96e;--acc2:#9b6fc4;
+  --text:#e8e0f0;--muted:#8a7a9a;--red:#e05555;--green:#5dca82;
+  --r:.6rem;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* LOGIN */
-  #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;
-    background:radial-gradient(ellipse at 30% 40%,rgba(155,111,196,.18) 0%,transparent 65%),
-               radial-gradient(ellipse at 70% 70%,rgba(201,169,110,.10) 0%,transparent 60%),var(--bg);}
-  .login-box{background:var(--surface);border:1px solid var(--border);border-radius:1rem;
-    padding:2.5rem;width:min(420px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
-  .login-logo{font-size:1.5rem;font-weight:700;color:var(--accent);margin-bottom:.4rem;}
-  .login-sub{font-size:.8rem;color:var(--muted);margin-bottom:2rem;}
-  .field{margin-bottom:1.2rem;}
-  .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.05em;text-transform:uppercase;}
-  .field input{width:100%;padding:.75rem 1rem;border-radius:var(--radius);background:var(--bg);
-    border:1px solid var(--border);color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;}
-  .field input:focus{border-color:var(--accent);}
-  .btn-primary{width:100%;padding:.85rem;border-radius:var(--radius);background:var(--accent);
-    color:#1a0d00;font-weight:700;font-size:.95rem;border:none;cursor:pointer;transition:opacity .2s;}
-  .btn-primary:hover{opacity:.88;}
-  #login-err{color:var(--red);font-size:.8rem;margin-top:.8rem;text-align:center;min-height:1.2em;}
-  .login-hint{font-size:.73rem;color:var(--muted);margin-top:1.2rem;text-align:center;line-height:1.6;}
+/* LOGIN */
+#login{display:flex;align-items:center;justify-content:center;min-height:100vh;
+  background:radial-gradient(ellipse at 30% 40%,rgba(155,111,196,.18),transparent 65%),
+             radial-gradient(ellipse at 70% 70%,rgba(201,169,110,.10),transparent 60%),var(--bg);}
+.lbox{background:var(--surface);border:1px solid var(--border);border-radius:1rem;
+  padding:2.5rem;width:min(400px,92vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.lbox h2{color:var(--acc);font-size:1.4rem;margin-bottom:.3rem;}
+.lbox p{font-size:.8rem;color:var(--muted);margin-bottom:2rem;}
+.fl{margin-bottom:1.1rem;}
+.fl label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em;}
+.fl input{width:100%;padding:.72rem 1rem;border-radius:var(--r);background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;}
+.fl input:focus{border-color:var(--acc);}
+.btn-p{width:100%;padding:.82rem;border-radius:var(--r);background:var(--acc);color:#1a0d00;
+  font-weight:700;font-size:.95rem;border:none;cursor:pointer;transition:opacity .2s;}
+.btn-p:hover{opacity:.85;}
+#lerr{color:var(--red);font-size:.8rem;margin-top:.7rem;text-align:center;min-height:1.1em;}
+.lhint{font-size:.72rem;color:var(--muted);margin-top:1rem;text-align:center;line-height:1.6;}
 
-  /* DASHBOARD */
-  #dashboard{display:none;}
-  .dash-nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.94);
-    backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
-    padding:0 1.2rem;display:flex;align-items:center;gap:.6rem;height:58px;overflow-x:auto;}
-  .dash-nav-logo{font-weight:700;color:var(--accent);font-size:1rem;margin-right:auto;white-space:nowrap;}
-  .nav-tab{background:none;border:none;color:var(--muted);font-size:.8rem;padding:.4rem .7rem;
-    border-radius:.35rem;cursor:pointer;transition:all .2s;white-space:nowrap;}
-  .nav-tab:hover,.nav-tab.active{background:rgba(201,169,110,.12);color:var(--accent);}
-  .dash-save-btn{background:var(--accent);color:#1a0d00;border:none;padding:.42rem 1rem;
-    border-radius:var(--radius);font-weight:700;font-size:.8rem;cursor:pointer;
-    transition:opacity .2s;white-space:nowrap;}
-  .dash-save-btn:hover{opacity:.88;}
-  .logout-btn{background:none;border:1px solid rgba(224,85,85,.35);color:var(--red);
-    padding:.38rem .75rem;border-radius:var(--radius);font-size:.78rem;cursor:pointer;
-    transition:all .2s;white-space:nowrap;}
-  .logout-btn:hover{background:rgba(224,85,85,.12);}
-  .dash-body{padding:2rem 1.5rem;max-width:1100px;margin:0 auto;}
+/* DASH */
+#dash{display:none;}
+nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;
+  padding:0 1rem;height:56px;overflow-x:auto;}
+.nlogo{font-weight:700;color:var(--acc);white-space:nowrap;margin-right:auto;font-size:.95rem;}
+.ntab{background:none;border:none;color:var(--muted);font-size:.78rem;padding:.38rem .65rem;
+  border-radius:.35rem;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.ntab:hover,.ntab.on{background:rgba(201,169,110,.12);color:var(--acc);}
+.nsave{background:var(--acc);color:#1a0d00;border:none;padding:.4rem .95rem;
+  border-radius:var(--r);font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
+.nsave:hover{opacity:.85;}
+.nout{background:none;border:1px solid rgba(224,85,85,.35);color:var(--red);
+  padding:.36rem .7rem;border-radius:var(--r);font-size:.76rem;cursor:pointer;white-space:nowrap;}
+.nout:hover{background:rgba(224,85,85,.1);}
 
-  /* PANELS */
-  .panel{display:none;}.panel.active{display:block;}
-  .panel-title{font-size:1.1rem;font-weight:700;color:var(--accent);
-    margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;}
-  .card{background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--radius);padding:1.4rem;margin-bottom:1.2rem;}
-  .card-title{font-size:.8rem;font-weight:600;color:var(--accent2);
-    letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
-  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
-  .form-group{margin-bottom:1rem;}
-  .form-group label{display:block;font-size:.76rem;color:var(--muted);margin-bottom:.4rem;}
-  .form-group input,.form-group textarea{width:100%;padding:.65rem .9rem;
-    border-radius:var(--radius);background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-size:.88rem;outline:none;transition:border-color .2s;font-family:inherit;}
-  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent);}
-  .form-group textarea{resize:vertical;min-height:80px;}
+.body{padding:1.8rem 1.2rem;max-width:1080px;margin:0 auto;}
 
-  /* SLIDES */
-  .slide-item{background:var(--surface2);border:1px solid var(--border);
-    border-radius:var(--radius);padding:1rem;margin-bottom:.8rem;
-    display:flex;gap:1rem;align-items:flex-start;}
-  .slide-num{min-width:28px;height:28px;background:rgba(201,169,110,.15);
-    color:var(--accent);border-radius:.3rem;display:flex;align-items:center;
-    justify-content:center;font-size:.75rem;font-weight:700;}
-  .slide-fields{flex:1;}
-  .slide-fields input{width:100%;padding:.55rem .8rem;border-radius:var(--radius);
-    background:var(--bg);border:1px solid var(--border);color:var(--text);
-    font-size:.85rem;outline:none;margin-bottom:.5rem;transition:border-color .2s;}
-  .slide-fields input:focus{border-color:var(--accent);}
-  .slide-img-preview{width:64px;min-width:64px;height:48px;border-radius:.35rem;
-    background:var(--bg);border:1px solid var(--border);object-fit:cover;display:block;}
-  .slide-img-placeholder{width:64px;min-width:64px;height:48px;border-radius:.35rem;
-    background:var(--bg);border:1px dashed var(--border);display:flex;align-items:center;
-    justify-content:center;font-size:.6rem;color:var(--muted);text-align:center;}
+/* PROGRESS */
+.pbar{height:3px;background:rgba(201,169,110,.1);display:none;margin-bottom:1.4rem;border-radius:2px;overflow:hidden;}
+.pbar.on{display:block;}
+.pfill{height:100%;background:var(--acc);transition:width .4s;width:0%;}
 
-  /* BEST WORK */
-  .work-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;}
-  .work-card{background:var(--surface2);border:1px solid var(--border);
-    border-radius:var(--radius);padding:1rem;position:relative;}
-  .work-card input,.work-card textarea{width:100%;padding:.5rem .7rem;border-radius:.35rem;
-    background:var(--bg);border:1px solid var(--border);color:var(--text);
-    font-size:.82rem;outline:none;margin-bottom:.5rem;transition:border-color .2s;font-family:inherit;}
-  .work-card input:focus,.work-card textarea:focus{border-color:var(--accent);}
-  .work-card label{font-size:.72rem;color:var(--muted);display:block;margin-bottom:.25rem;}
-  .work-card-img{width:100%;height:110px;object-fit:cover;border-radius:.3rem;
-    background:var(--surface);display:block;margin-bottom:.7rem;}
-  .work-card-placeholder{width:100%;height:110px;border-radius:.3rem;background:var(--bg);
-    border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;
-    font-size:.72rem;color:var(--muted);margin-bottom:.7rem;}
-  .del-btn{position:absolute;top:.6rem;right:.6rem;background:rgba(224,85,85,.15);
-    border:1px solid rgba(224,85,85,.3);color:var(--red);border-radius:.3rem;
-    width:26px;height:26px;cursor:pointer;font-size:.9rem;display:flex;
-    align-items:center;justify-content:center;transition:all .2s;}
-  .del-btn:hover{background:rgba(224,85,85,.3);}
+/* PANELS */
+.pnl{display:none;}.pnl.on{display:block;}
+.ptitle{font-size:1.05rem;font-weight:700;color:var(--acc);margin-bottom:1.4rem;display:flex;align-items:center;gap:.5rem;}
 
-  /* SERVICES */
-  .svc-item{background:var(--surface2);border:1px solid var(--border);
-    border-radius:var(--radius);padding:1rem;margin-bottom:.7rem;
-    display:flex;gap:.8rem;align-items:flex-start;}
-  .svc-item input,.svc-item textarea{width:100%;padding:.5rem .7rem;border-radius:.35rem;
-    background:var(--bg);border:1px solid var(--border);color:var(--text);
-    font-size:.82rem;outline:none;margin-bottom:.4rem;transition:border-color .2s;font-family:inherit;}
-  .svc-item input:focus,.svc-item textarea:focus{border-color:var(--accent);}
-  .svc-item textarea{min-height:60px;resize:vertical;}
-  .svc-icon-input{width:52px!important;text-align:center;font-size:1.2rem!important;}
-  .svc-del{position:static!important;width:26px!important;height:26px!important;min-width:26px;}
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;margin-bottom:1.1rem;}
+.ctitle{font-size:.76rem;font-weight:600;color:var(--acc2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.9rem;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:.9rem;}
+@media(max-width:560px){.row2{grid-template-columns:1fr;}}
+.fg{margin-bottom:.9rem;}
+.fg label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:.35rem;}
+.fg input,.fg textarea{width:100%;padding:.6rem .85rem;border-radius:var(--r);background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.86rem;outline:none;
+  transition:border-color .2s;font-family:inherit;}
+.fg input:focus,.fg textarea:focus{border-color:var(--acc);}
+.fg textarea{resize:vertical;min-height:76px;}
 
-  /* SOCIAL */
-  .social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;}
-  .social-field{display:flex;align-items:center;gap:.7rem;background:var(--surface2);
-    border:1px solid var(--border);border-radius:var(--radius);padding:.65rem .9rem;}
-  .social-ico{font-size:1rem;min-width:22px;text-align:center;color:var(--accent);}
-  .social-field input{flex:1;background:none;border:none;color:var(--text);
-    font-size:.82rem;outline:none;min-width:0;}
+/* SLIDE ITEMS */
+.si{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.9rem;margin-bottom:.7rem;display:flex;gap:.9rem;align-items:flex-start;}
+.sn{min-width:26px;height:26px;background:rgba(201,169,110,.12);color:var(--acc);
+  border-radius:.3rem;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;}
+.sf{flex:1;}
+.sf input{width:100%;padding:.5rem .75rem;border-radius:var(--r);background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.82rem;outline:none;
+  margin-bottom:.45rem;transition:border-color .2s;}
+.sf input:focus{border-color:var(--acc);}
+.sprev{width:60px;min-width:60px;height:44px;object-fit:cover;border-radius:.3rem;
+  background:var(--bg);border:1px solid var(--border);}
+.snoprev{width:60px;min-width:60px;height:44px;border-radius:.3rem;background:var(--bg);
+  border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:.56rem;color:var(--muted);text-align:center;}
 
-  /* ADD BTN */
-  .add-btn{display:flex;align-items:center;gap:.5rem;background:rgba(201,169,110,.06);
-    border:1px dashed rgba(201,169,110,.3);color:var(--accent);padding:.65rem 1.2rem;
-    border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:all .2s;
-    width:100%;justify-content:center;margin-top:.8rem;}
-  .add-btn:hover{background:rgba(201,169,110,.14);}
+/* WORK GRID */
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem;}
+.wc{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.9rem;position:relative;}
+.wc label{font-size:.7rem;color:var(--muted);display:block;margin-bottom:.22rem;}
+.wc input{width:100%;padding:.45rem .65rem;border-radius:.32rem;background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.8rem;outline:none;
+  margin-bottom:.45rem;transition:border-color .2s;font-family:inherit;}
+.wc input:focus{border-color:var(--acc);}
+.wimg{width:100%;height:100px;object-fit:cover;border-radius:.28rem;background:var(--bg);
+  display:block;margin-bottom:.65rem;}
+.wnimg{width:100%;height:100px;border-radius:.28rem;background:var(--bg);
+  border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:.68rem;color:var(--muted);margin-bottom:.65rem;}
 
-  /* TOAST */
-  #toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--surface);
-    border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1.2rem;
-    font-size:.85rem;display:none;align-items:center;gap:.6rem;
-    box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:300px;animation:slideIn .3s ease;}
-  @keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-  #toast.show{display:flex;}
-  #toast.success{border-color:rgba(93,202,130,.4);}
-  #toast.error{border-color:rgba(224,85,85,.4);}
+/* SERVICES */
+.svc{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.9rem;margin-bottom:.65rem;display:flex;gap:.75rem;align-items:flex-start;}
+.svc input,.svc textarea{width:100%;padding:.45rem .65rem;border-radius:.32rem;background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.8rem;outline:none;
+  margin-bottom:.4rem;transition:border-color .2s;font-family:inherit;}
+.svc input:focus,.svc textarea:focus{border-color:var(--acc);}
+.svc textarea{min-height:56px;resize:vertical;}
+.icon-inp{width:50px!important;text-align:center;font-size:1.1rem!important;}
 
-  /* COMMIT MODAL */
-  #commit-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
-    display:none;align-items:center;justify-content:center;}
-  #commit-modal.open{display:flex;}
-  .commit-box{background:var(--surface);border:1px solid var(--border);
-    border-radius:1rem;padding:2rem;width:min(440px,90vw);}
-  .commit-box h3{color:var(--accent);margin-bottom:1rem;font-size:1rem;}
-  .commit-box p{color:var(--muted);font-size:.82rem;margin-bottom:1.2rem;line-height:1.7;}
-  .commit-box input{width:100%;padding:.7rem 1rem;border-radius:var(--radius);
-    background:var(--bg);border:1px solid var(--border);color:var(--text);
-    font-size:.88rem;outline:none;margin-bottom:1.2rem;transition:border-color .2s;}
-  .commit-box input:focus{border-color:var(--accent);}
-  .commit-actions{display:flex;gap:.8rem;justify-content:flex-end;}
-  .btn-ghost2{background:none;border:1px solid var(--border);color:var(--muted);
-    padding:.55rem 1rem;border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:all .2s;}
-  .btn-ghost2:hover{border-color:var(--accent);color:var(--accent);}
+/* SOCIAL */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.7rem;}
+.sf2{display:flex;align-items:center;gap:.65rem;background:var(--s2);
+  border:1px solid var(--border);border-radius:var(--r);padding:.6rem .85rem;}
+.sico{font-size:.9rem;min-width:20px;text-align:center;color:var(--acc);}
+.sf2 input{flex:1;background:none;border:none;color:var(--text);font-size:.8rem;outline:none;min-width:0;}
+.sep{border:none;border-top:1px solid var(--border);margin:1.2rem 0;}
 
-  /* PROGRESS */
-  .progress-bar{height:3px;background:rgba(201,169,110,.12);border-radius:2px;
-    margin-bottom:1.5rem;overflow:hidden;display:none;}
-  .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease;width:0%;}
-  .progress-bar.show{display:block;}
+/* DEL BTN */
+.delbtn{position:absolute;top:.5rem;right:.5rem;background:rgba(224,85,85,.12);
+  border:1px solid rgba(224,85,85,.28);color:var(--red);border-radius:.28rem;
+  width:24px;height:24px;cursor:pointer;font-size:.8rem;display:flex;
+  align-items:center;justify-content:center;transition:all .2s;}
+.delbtn:hover{background:rgba(224,85,85,.28);}
 
-  /* PAGES */
-  .page-item{background:var(--surface2);border:1px solid var(--border);
-    border-radius:var(--radius);padding:1rem;margin-bottom:.7rem;
-    display:flex;justify-content:space-between;align-items:center;}
-  .page-item-name{font-weight:600;margin-bottom:.2rem;}
-  .page-item-slug{font-size:.75rem;color:var(--muted);}
-  .section-sep{border:none;border-top:1px solid var(--border);margin:1.5rem 0;}
+/* ADD BTN */
+.addbtn{display:flex;align-items:center;justify-content:center;gap:.45rem;
+  background:rgba(201,169,110,.05);border:1px dashed rgba(201,169,110,.28);
+  color:var(--acc);padding:.6rem 1rem;border-radius:var(--r);cursor:pointer;
+  font-size:.82rem;transition:all .2s;width:100%;margin-top:.7rem;}
+.addbtn:hover{background:rgba(201,169,110,.12);}
+
+/* PAGE LIST */
+.pgitem{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.9rem;margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center;}
+.pgname{font-weight:600;margin-bottom:.2rem;}
+.pgslug{font-size:.72rem;color:var(--muted);}
+
+/* TOAST */
+#toast{position:fixed;bottom:1.4rem;right:1.4rem;z-index:9999;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1.1rem;
+  font-size:.82rem;display:none;align-items:center;gap:.55rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:290px;animation:tIn .3s ease;}
+@keyframes tIn{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+#toast.on{display:flex;}
+#toast.ok{border-color:rgba(93,202,130,.4);}
+#toast.er{border-color:rgba(224,85,85,.4);}
+
+/* MODAL */
+#modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.76);
+  display:none;align-items:center;justify-content:center;}
+#modal.on{display:flex;}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:1rem;
+  padding:1.8rem;width:min(420px,92vw);}
+.mbox h3{color:var(--acc);font-size:.98rem;margin-bottom:.8rem;}
+.mbox p{color:var(--muted);font-size:.8rem;line-height:1.7;margin-bottom:1.1rem;}
+.mbox input{width:100%;padding:.65rem .9rem;border-radius:var(--r);background:var(--bg);
+  border:1px solid var(--border);color:var(--text);font-size:.86rem;outline:none;
+  margin-bottom:1.1rem;transition:border-color .2s;}
+.mbox input:focus{border-color:var(--acc);}
+.mact{display:flex;gap:.7rem;justify-content:flex-end;}
+.btn-g{background:none;border:1px solid var(--border);color:var(--muted);
+  padding:.5rem .95rem;border-radius:var(--r);cursor:pointer;font-size:.82rem;transition:all .2s;}
+.btn-g:hover{border-color:var(--acc);color:var(--acc);}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">⬡ Dashboard</div>
-    <p class="login-sub">Mohamed Barakat — Site Control Panel</p>
-    <div class="field">
+<!-- ═══ LOGIN ═══ -->
+<div id="login">
+  <div class="lbox">
+    <h2>⬡ Dashboard</h2>
+    <p>Mohamed Barakat — Site Control Panel</p>
+    <div class="fl">
       <label>GitHub Token</label>
-      <input type="password" id="inp-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+      <input type="password" id="itoken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
     </div>
-    <div class="field">
+    <div class="fl">
       <label>Dashboard Password</label>
-      <input type="password" id="inp-pass" placeholder="Your secret password" autocomplete="off"
-        onkeydown="if(event.key==='Enter')doLogin()">
+      <input type="password" id="ipass" placeholder="Your password"
+        onkeydown="if(event.key==='Enter')login()">
     </div>
-    <button class="btn-primary" onclick="doLogin()">Login →</button>
-    <div id="login-err"></div>
-    <p class="login-hint">Token is stored only in this browser session.<br>Never sent anywhere except GitHub's API.</p>
+    <button class="btn-p" onclick="login()">Login →</button>
+    <div id="lerr"></div>
+    <p class="lhint">Token stored in session only — never saved externally.</p>
   </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <nav class="dash-nav">
-    <span class="dash-nav-logo">⬡ Dashboard</span>
-    <button class="nav-tab active" data-tab="hero"     onclick="switchTab(this,'hero')">Hero</button>
-    <button class="nav-tab"        data-tab="bestwork" onclick="switchTab(this,'bestwork')">Best Work</button>
-    <button class="nav-tab"        data-tab="services" onclick="switchTab(this,'services')">Services</button>
-    <button class="nav-tab"        data-tab="info"     onclick="switchTab(this,'info')">Info</button>
-    <button class="nav-tab"        data-tab="social"   onclick="switchTab(this,'social')">Social</button>
-    <button class="nav-tab"        data-tab="pages"    onclick="switchTab(this,'pages')">Pages</button>
-    <button class="dash-save-btn"  onclick="openCommitModal()">💾 Save to Site</button>
-    <button class="logout-btn"     onclick="doLogout()">Logout</button>
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dash">
+  <nav>
+    <span class="nlogo">⬡ Dashboard</span>
+    <button class="ntab on"  onclick="tab(this,'hero')">Hero</button>
+    <button class="ntab"     onclick="tab(this,'work')">Best Work</button>
+    <button class="ntab"     onclick="tab(this,'svc')">Services</button>
+    <button class="ntab"     onclick="tab(this,'info')">Info</button>
+    <button class="ntab"     onclick="tab(this,'soc')">Social</button>
+    <button class="ntab"     onclick="tab(this,'pages')">Pages</button>
+    <button class="nsave"    onclick="openModal()">💾 Save to Site</button>
+    <button class="nout"     onclick="logout()">Out</button>
   </nav>
 
-  <div class="dash-body">
-    <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="body">
+    <div class="pbar" id="pbar"><div class="pfill" id="pfill"></div></div>
 
-    <!-- HERO PANEL -->
-    <div class="panel active" id="panel-hero">
-      <div class="panel-title">🖼️ Hero Section</div>
+    <!-- HERO -->
+    <div class="pnl on" id="pnl-hero">
+      <div class="ptitle">🖼️ Hero Section</div>
       <div class="card">
-        <div class="card-title">Name & Role</div>
-        <div class="form-row">
-          <div class="form-group"><label>First Name</label><input type="text" id="hero-fname" value="Mohamed"></div>
-          <div class="form-group"><label>Last Name (gold color)</label><input type="text" id="hero-lname" value="Barakat"></div>
+        <div class="ctitle">Name & Text</div>
+        <div class="row2">
+          <div class="fg"><label>First Name</label><input id="h-fname" value="Mohamed"></div>
+          <div class="fg"><label>Last Name (gold)</label><input id="h-lname" value="Barakat"></div>
         </div>
-        <div class="form-group"><label>Badge Text</label><input type="text" id="hero-badge" value="Available for Projects"></div>
-        <div class="form-group"><label>Role Title</label><input type="text" id="hero-role" value="Creative Graphic Designer &amp; Social Media Specialist"></div>
-        <div class="form-group"><label>Sub Description</label><textarea id="hero-desc">Expertise in web design, e-commerce, branding, and SEO strategies — crafting visuals that connect and convert.</textarea></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Background Slides — paste image URLs (up to 4)</div>
-        <div id="slides-container"></div>
-        <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">💡 Use direct image URLs from your GitHub repo or any public CDN. Leave empty to show gradient placeholder.</p>
-      </div>
-    </div>
-
-    <!-- BEST WORK PANEL -->
-    <div class="panel" id="panel-bestwork">
-      <div class="panel-title">⭐ Best Work Slider</div>
-      <div class="card">
-        <div class="card-title">Projects</div>
-        <div class="work-grid" id="work-grid"></div>
-        <button class="add-btn" onclick="addWork()">＋ Add Project</button>
-      </div>
-    </div>
-
-    <!-- SERVICES PANEL -->
-    <div class="panel" id="panel-services">
-      <div class="panel-title">🛠️ Services</div>
-      <div class="card">
-        <div id="svc-list"></div>
-        <button class="add-btn" onclick="addService()">＋ Add Service</button>
-      </div>
-    </div>
-
-    <!-- INFO PANEL -->
-    <div class="panel" id="panel-info">
-      <div class="panel-title">👤 Personal Info</div>
-      <div class="card">
-        <div class="card-title">About Section</div>
-        <div class="form-group"><label>Headline</label><input type="text" id="about-headline" value="Crafting Visual Experiences"></div>
-        <div class="form-group"><label>Paragraph 1</label><textarea id="about-p1" rows="3">I'm a Creative Graphic Designer and Social Media Specialist based in Cairo, Egypt, with over 7 years of experience transforming brands through powerful visual storytelling.</textarea></div>
-        <div class="form-group"><label>Paragraph 2</label><textarea id="about-p2" rows="3">Currently leading the Online &amp; E-Commerce Division at Eliraqi Company, I manage everything from product photography and social media design to SEO optimization and e-commerce operations.</textarea></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Stats</div>
-        <div class="form-row">
-          <div class="form-group"><label>Years Experience</label><input type="text" id="stat-0" value="7+"></div>
-          <div class="form-group"><label>Projects Completed</label><input type="text" id="stat-1" value="50+"></div>
-          <div class="form-group"><label>Brands Served</label><input type="text" id="stat-2" value="6"></div>
-          <div class="form-group"><label>4th Stat</label><input type="text" id="stat-3" value="∞"></div>
+        <div class="fg"><label>Badge</label><input id="h-badge" value="Available for Projects"></div>
+        <div class="fg"><label>Role Title</label><input id="h-role" value="Creative Graphic Designer &amp; Social Media Specialist"></div>
+        <div class="fg"><label>Description</label>
+          <textarea id="h-desc">Expertise in web design, e-commerce, branding, and SEO strategies — crafting visuals that connect and convert.</textarea>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">CV File</div>
-        <div class="form-group"><label>CV Download Path</label><input type="text" id="cv-path" value="/Mohamed-Barakat-CV.pdf"></div>
+        <div class="ctitle">Background Slides (up to 4 images)</div>
+        <div id="slides-wrap"></div>
+        <p style="font-size:.73rem;color:var(--muted);margin-top:.5rem;">
+          💡 Paste a direct public image URL. Leave empty to show gradient background.
+        </p>
       </div>
     </div>
 
-    <!-- SOCIAL PANEL -->
-    <div class="panel" id="panel-social">
-      <div class="panel-title">📱 Social Media Links</div>
+    <!-- BEST WORK -->
+    <div class="pnl" id="pnl-work">
+      <div class="ptitle">⭐ Best Work Slider</div>
       <div class="card">
-        <div class="card-title">Social Accounts</div>
-        <div class="social-grid">
-          <div class="social-field"><span class="social-ico">f</span><input type="url" id="soc-facebook"  value="https://www.facebook.com/" placeholder="Facebook URL"></div>
-          <div class="social-field"><span class="social-ico">📷</span><input type="url" id="soc-instagram" value="https://www.instagram.com/designedby.bd" placeholder="Instagram URL"></div>
-          <div class="social-field"><span class="social-ico">♪</span><input type="url" id="soc-tiktok"    value="https://www.tiktok.com/" placeholder="TikTok URL"></div>
-          <div class="social-field"><span class="social-ico" style="font-weight:900;font-size:.8rem;">BE</span><input type="url" id="soc-behance"   value="https://www.behance.net/mbarakat960b56" placeholder="Behance URL"></div>
-          <div class="social-field"><span class="social-ico">in</span><input type="url" id="soc-linkedin"  value="https://www.linkedin.com/in/mohammedbarakat1/" placeholder="LinkedIn URL"></div>
+        <div class="ctitle">Projects — each shows as a slide with image, title, subtitle & link</div>
+        <div class="wgrid" id="work-wrap"></div>
+        <button class="addbtn" onclick="addWork()">＋ Add Project</button>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="pnl" id="pnl-svc">
+      <div class="ptitle">🛠️ Services</div>
+      <div class="card">
+        <div id="svc-wrap"></div>
+        <button class="addbtn" onclick="addSvc()">＋ Add Service</button>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="pnl" id="pnl-info">
+      <div class="ptitle">👤 Personal Info</div>
+      <div class="card">
+        <div class="ctitle">About Section</div>
+        <div class="fg"><label>Paragraph 1</label>
+          <textarea id="a-p1">I'm a Creative Graphic Designer and Social Media Specialist based in Cairo, Egypt, with 7+ years of experience bridging design and e-commerce.</textarea>
         </div>
-        <hr class="section-sep">
-        <div class="card-title">Contact Section Links</div>
-        <div class="form-group"><label>Email</label><input type="email" id="contact-email" value="mo.barakat.design@gmail.com"></div>
-        <div class="form-group"><label>Phone / WhatsApp</label><input type="text" id="contact-phone" value="+20 123 456 7890"></div>
-        <div class="form-group"><label>Location</label><input type="text" id="contact-location" value="Cairo, Egypt"></div>
+        <div class="fg"><label>Paragraph 2</label>
+          <textarea id="a-p2">Currently leading the Online &amp; E-Commerce Division at Eliraqi Company — managing social media design, video production, product listings, SEO, and full e-commerce operations.</textarea>
+        </div>
+        <div class="fg"><label>Paragraph 3</label>
+          <textarea id="a-p3">Open to relocation and new senior opportunities — especially in Saudi Arabia's home appliances and electronics sector.</textarea>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Stats</div>
+        <div class="row2">
+          <div class="fg"><label>Stat 1 — Number</label><input id="s0n" value="7+"></div>
+          <div class="fg"><label>Stat 1 — Label</label><input id="s0l" value="Years Experience"></div>
+          <div class="fg"><label>Stat 2 — Number</label><input id="s1n" value="50+"></div>
+          <div class="fg"><label>Stat 2 — Label</label><input id="s1l" value="Projects Delivered"></div>
+          <div class="fg"><label>Stat 3 — Number</label><input id="s2n" value="6"></div>
+          <div class="fg"><label>Stat 3 — Label</label><input id="s2l" value="Core Services"></div>
+          <div class="fg"><label>Stat 4 — Number</label><input id="s3n" value="∞"></div>
+          <div class="fg"><label>Stat 4 — Label</label><input id="s3l" value="Creative Ideas"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ctitle">CV Download</div>
+        <div class="fg"><label>CV file path (relative to site root)</label>
+          <input id="cv-path" value="/Mohamed-Barakat-CV.pdf">
+        </div>
       </div>
     </div>
 
-    <!-- PAGES PANEL -->
-    <div class="panel" id="panel-pages">
-      <div class="panel-title">📄 Pages</div>
+    <!-- SOCIAL -->
+    <div class="pnl" id="pnl-soc">
+      <div class="ptitle">📱 Social & Contact Links</div>
       <div class="card">
-        <div class="card-title">Existing Pages</div>
-        <div id="page-list">
-          <div class="page-item">
-            <div><div class="page-item-name">Home</div><div class="page-item-slug">index.html</div></div>
-            <span style="font-size:.75rem;color:var(--green);">● Live</span>
+        <div class="ctitle">Social Accounts (appear in Hero + Footer)</div>
+        <div class="sgrid">
+          <div class="sf2"><span class="sico">f</span><input id="sc-fb"  value="https://www.facebook.com/"></div>
+          <div class="sf2"><span class="sico">📷</span><input id="sc-ig"  value="https://www.instagram.com/designedby.bd"></div>
+          <div class="sf2"><span class="sico">♪</span><input id="sc-tt"  value="https://www.tiktok.com/"></div>
+          <div class="sf2"><span class="sico" style="font-weight:900;font-size:.75rem;">BE</span><input id="sc-bh" value="https://www.behance.net/mbarakat960b56"></div>
+          <div class="sf2"><span class="sico">in</span><input id="sc-li"  value="https://www.linkedin.com/in/mohammedbarakat1/"></div>
+        </div>
+        <div class="sep"></div>
+        <div class="ctitle">Contact Section</div>
+        <div class="row2">
+          <div class="fg"><label>Email</label><input id="cc-email" value="mbarakat960@gmail.com"></div>
+          <div class="fg"><label>Phone (with country code)</label><input id="cc-phone" value="+20 100 815 3733"></div>
+        </div>
+        <div class="fg"><label>Location text</label><input id="cc-loc" value="Cairo, Egypt — open to relocation"></div>
+      </div>
+    </div>
+
+    <!-- PAGES -->
+    <div class="pnl" id="pnl-pages">
+      <div class="ptitle">📄 Pages</div>
+      <div class="card">
+        <div class="ctitle">Existing Pages</div>
+        <div id="pg-list">
+          <div class="pgitem">
+            <div><div class="pgname">Home</div><div class="pgslug">index.html</div></div>
+            <span style="font-size:.73rem;color:var(--green);">● Live</span>
           </div>
         </div>
-        <hr class="section-sep">
-        <div class="card-title">Create New Page</div>
-        <div class="form-group"><label>Page Title</label><input type="text" id="new-page-title" placeholder="e.g. About Me"></div>
-        <div class="form-group"><label>Slug (filename — no spaces, no special chars)</label>
-          <input type="text" id="new-page-slug" placeholder="about"
-            oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')">
+        <div class="sep"></div>
+        <div class="ctitle">Create New Page</div>
+        <div class="fg"><label>Page Title</label><input id="pg-title" placeholder="About Me"></div>
+        <div class="fg"><label>Slug (letters, numbers, dashes only)</label>
+          <input id="pg-slug" placeholder="about" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')">
         </div>
-        <div class="form-group"><label>Page Body HTML</label>
-          <textarea id="new-page-content" rows="10" placeholder="&lt;section&gt;&#10;  &lt;h1&gt;About Me&lt;/h1&gt;&#10;  &lt;p&gt;Your content here...&lt;/p&gt;&#10;&lt;/section&gt;"></textarea>
+        <div class="fg"><label>Body HTML</label>
+          <textarea id="pg-body" rows="10" placeholder="&lt;h1&gt;About Me&lt;/h1&gt;&#10;&lt;p&gt;Your content...&lt;/p&gt;"></textarea>
         </div>
-        <button class="add-btn" onclick="createNewPage()">＋ Create Page on GitHub</button>
+        <button class="addbtn" onclick="createPage()">＋ Create Page on GitHub</button>
       </div>
     </div>
 
-  </div><!-- /dash-body -->
-</div><!-- /dashboard -->
+  </div>
+</div>
 
-<!-- TOAST -->
-<div id="toast"><span id="toast-icon"></span>&nbsp;<span id="toast-msg"></span></div>
+<div id="toast"><span id="ticon"></span>&nbsp;<span id="tmsg"></span></div>
 
-<!-- COMMIT MODAL -->
-<div id="commit-modal">
-  <div class="commit-box">
+<div id="modal">
+  <div class="mbox">
     <h3>💾 Push Changes to GitHub</h3>
-    <p>This will update <strong>index.html</strong> in your repo.<br>Your live site will refresh within ~60 seconds.</p>
-    <input type="text" id="commit-msg" value="Update site via dashboard" placeholder="Describe what you changed">
-    <div class="commit-actions">
-      <button class="btn-ghost2" onclick="closeCommitModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto;padding:.55rem 1.4rem;" onclick="pushToGitHub()">🚀 Push</button>
+    <p>Updates <strong>index.html</strong> in your repo.<br>Site refreshes within ~60 seconds after push.</p>
+    <input type="text" id="cmsg" value="Update site via dashboard">
+    <div class="mact">
+      <button class="btn-g" onclick="closeModal()">Cancel</button>
+      <button class="btn-p" style="width:auto;padding:.5rem 1.3rem;" onclick="push()">🚀 Push</button>
     </div>
   </div>
 </div>
 
 <script>
-// ─────────────────────────────────────────────
-//  CONFIG — change password below
-// ─────────────────────────────────────────────
-const REPO_OWNER = 'designedbybd';
-const REPO_NAME  = 'designedbybd.online';
-const FILE_PATH  = 'index.html';
-const DASH_PASS  = 'BD2024@dashboard'; // ← CHANGE THIS
+/* ─── CONFIG ─── */
+const OWNER = 'designedbybd';
+const REPO  = 'designedbybd.online';
+const FILE  = 'index.html';
+const PASS  = 'BD2024@dashboard'; // ← CHANGE THIS PASSWORD
 
-// ─────────────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────────────
-let GH_TOKEN    = '';
-let currentHTML = '';
-let fileSHA     = '';
+/* ─── STATE ─── */
+let TOKEN = '', RAW = '', SHA = '';
 
-let slides = [
+let bgSlides = [
   {url:'', alt:'Hero Background 1'},
   {url:'', alt:'Hero Background 2'},
   {url:'', alt:'Hero Background 3'},
@@ -367,521 +369,482 @@ let slides = [
 ];
 
 let works = [
-  {title:'Eliraqi Brand',   img:'', link:'https://www.behance.net/mbarakat960b56'},
-  {title:'Mariam Lenses',   img:'', link:'https://www.behance.net/mbarakat960b56'},
+  {title:'Eliraqi Brand',    sub:'Social Media Design · E-Commerce', img:'', link:''},
+  {title:'BEYOT Real Estate',sub:'Company Profile · Brand Identity',  img:'', link:''},
+  {title:'Haven Baby Care',  sub:'Branding · Social Media · Events',  img:'', link:''},
+  {title:'Coffee Shop Branding',sub:'Full Brand Kit · Print Design',  img:'', link:''},
+  {title:'@designedby.bd',  sub:'Freelance Design · Logo · Identity', img:'', link:''},
 ];
 
-let services = [
-  {icon:'🎨', title:'Graphic Design',    desc:'Brand identity, logo design, social media visuals, print materials, and creative campaigns that leave a lasting impression.'},
-  {icon:'📱', title:'Social Media',      desc:"Strategic content creation, visual storytelling, and platform management to grow your brand's online presence."},
-  {icon:'🛒', title:'E-Commerce',        desc:'Product listings, store optimization, SEO strategies, and full e-commerce operations to boost your online sales.'},
-  {icon:'🌐', title:'Web Design',        desc:'Clean, modern, conversion-focused web designs tailored for businesses and e-commerce platforms.'},
-  {icon:'🎬', title:'Video Production',  desc:'Motion graphics, promotional videos, reels, and animated content that captures attention and drives engagement.'},
-  {icon:'🔍', title:'SEO & Data Entry',  desc:'On-page SEO optimization, keyword strategies, and accurate data management to improve visibility and performance.'},
+let svcs = [
+  {icon:'🎨',title:'Graphic Design',   desc:"Brand identity, logo design, social media visuals, print materials, and creative campaigns that leave a lasting impression."},
+  {icon:'📱',title:'Social Media',     desc:"Strategic content creation, visual storytelling, and platform management to grow your brand's online presence."},
+  {icon:'🛒',title:'E-Commerce',       desc:'Product listings, store optimization, SEO strategies, and full e-commerce operations to boost your online sales.'},
+  {icon:'🌐',title:'Web Design',       desc:'Clean, modern, conversion-focused web designs tailored for businesses and e-commerce platforms.'},
+  {icon:'🎬',title:'Video Production', desc:'Motion graphics, promotional videos, reels, and animated content that captures attention and drives engagement.'},
+  {icon:'🔍',title:'SEO & Data Entry', desc:'On-page SEO optimization, keyword strategies, and accurate data management to improve visibility and performance.'},
 ];
 
-// ─────────────────────────────────────────────
-//  LOGIN
-// ─────────────────────────────────────────────
-async function doLogin() {
-  const token = document.getElementById('inp-token').value.trim();
-  const pass  = document.getElementById('inp-pass').value;
-  const err   = document.getElementById('login-err');
+/* ─── LOGIN ─── */
+async function login() {
+  const token = $('itoken').value.trim();
+  const pass  = $('ipass').value;
+  const err   = $('lerr');
   err.textContent = '';
-
-  if (!token) { err.textContent = 'Please enter your GitHub token.'; return; }
-  if (pass !== DASH_PASS) { err.textContent = 'Incorrect password.'; return; }
-
-  err.textContent = 'Verifying…';
+  if (!token) { err.textContent = 'Enter your GitHub token.'; return; }
+  if (pass !== PASS) { err.textContent = 'Wrong password.'; return; }
+  err.textContent = 'Connecting…';
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-      { headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' } }
-    );
-    if (!res.ok) { err.textContent = `GitHub error ${res.status} — check token & repo name.`; return; }
-    const data = await res.json();
-    GH_TOKEN    = token;
-    fileSHA     = data.sha;
-    currentHTML = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadAllData();
-    toast('✅','Logged in!','success');
-  } catch(e) {
-    err.textContent = 'Network error. Check your connection.';
-  }
+    const r = await ghGet(FILE, token);
+    if (!r.ok) { err.textContent = `GitHub error ${r.status} — check token.`; return; }
+    const d = await r.json();
+    TOKEN = token;
+    SHA   = d.sha;
+    RAW   = b64dec(d.content);
+    $('login').style.display = 'none';
+    $('dash').style.display  = 'block';
+    loadData();
+    toast('✅','Logged in!','ok');
+  } catch(e) { err.textContent = 'Network error.'; }
 }
 
-function doLogout() {
-  GH_TOKEN = ''; currentHTML = ''; fileSHA = '';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('inp-token').value = '';
-  document.getElementById('inp-pass').value  = '';
-  document.getElementById('login-err').textContent = '';
+function logout() {
+  TOKEN = ''; RAW = ''; SHA = '';
+  $('login').style.display = 'flex';
+  $('dash').style.display  = 'none';
+  $('itoken').value = $('ipass').value = '';
+  $('lerr').textContent = '';
 }
 
-// ─────────────────────────────────────────────
-//  TABS
-// ─────────────────────────────────────────────
-function switchTab(btn, tab) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
-  btn.classList.add('active');
+/* ─── TABS ─── */
+function tab(btn, id) {
+  document.querySelectorAll('.pnl').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
+  $('pnl-'+id).classList.add('on');
+  btn.classList.add('on');
 }
 
-// ─────────────────────────────────────────────
-//  RENDER SLIDES
-// ─────────────────────────────────────────────
+/* ─── RENDER SLIDES ─── */
 function renderSlides() {
-  const c = document.getElementById('slides-container');
-  c.innerHTML = '';
-  slides.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'slide-item';
-    const previewHtml = s.url
-      ? `<img class="slide-img-preview" src="${xss(s.url)}" onerror="this.style.opacity='.3'">`
-      : `<div class="slide-img-placeholder">Gradient</div>`;
-    div.innerHTML = `
-      <div class="slide-num">${i+1}</div>
-      <div class="slide-fields">
-        <input type="text" placeholder="Image URL (leave empty for gradient)" value="${xss(s.url)}"
-          oninput="slides[${i}].url=this.value;renderSlides()">
-        <input type="text" placeholder="Alt text" value="${xss(s.alt)}"
-          oninput="slides[${i}].alt=this.value">
+  const w = $('slides-wrap'); w.innerHTML = '';
+  bgSlides.forEach((s,i) => {
+    const d = document.createElement('div'); d.className='si';
+    d.innerHTML = `
+      <div class="sn">${i+1}</div>
+      <div class="sf">
+        <input type="text" placeholder="Image URL (empty = gradient)" value="${q(s.url)}"
+          oninput="bgSlides[${i}].url=this.value;renderSlides()">
+        <input type="text" placeholder="Alt text" value="${q(s.alt)}"
+          oninput="bgSlides[${i}].alt=this.value">
       </div>
-      <div>${previewHtml}</div>`;
-    c.appendChild(div);
+      <div>${s.url
+        ? `<img class="sprev" src="${q(s.url)}" onerror="this.style.opacity='.25'">`
+        : `<div class="snoprev">No<br>image</div>`}</div>`;
+    w.appendChild(d);
   });
 }
 
-// ─────────────────────────────────────────────
-//  RENDER BEST WORK
-// ─────────────────────────────────────────────
+/* ─── RENDER WORKS ─── */
 function renderWorks() {
-  const g = document.getElementById('work-grid');
-  g.innerHTML = '';
-  works.forEach((w, i) => {
-    const d = document.createElement('div');
-    d.className = 'work-card';
-    const imgHtml = w.img
-      ? `<img class="work-card-img" src="${xss(w.img)}" onerror="this.style.opacity='.3'">`
-      : `<div class="work-card-placeholder">No image yet</div>`;
+  const w = $('work-wrap'); w.innerHTML = '';
+  works.forEach((k,i) => {
+    const d = document.createElement('div'); d.className='wc';
     d.innerHTML = `
-      <button class="del-btn" onclick="removeWork(${i})">✕</button>
-      ${imgHtml}
-      <label>Project Title</label>
-      <input type="text" value="${xss(w.title)}" oninput="works[${i}].title=this.value">
+      <button class="delbtn" onclick="delWork(${i})">✕</button>
+      ${k.img
+        ? `<img class="wimg" src="${q(k.img)}" onerror="this.style.opacity='.25'">`
+        : `<div class="wnimg">No image</div>`}
+      <label>Title</label>
+      <input value="${q(k.title)}" oninput="works[${i}].title=this.value">
+      <label>Subtitle</label>
+      <input value="${q(k.sub)}" oninput="works[${i}].sub=this.value">
       <label>Image URL</label>
-      <input type="text" value="${xss(w.img)}" placeholder="https://…" oninput="works[${i}].img=this.value;renderWorks()">
-      <label>Behance Link</label>
-      <input type="text" value="${xss(w.link)}" placeholder="https://behance.net/…" oninput="works[${i}].link=this.value">`;
-    g.appendChild(d);
+      <input value="${q(k.img)}" placeholder="https://…" oninput="works[${i}].img=this.value;renderWorks()">
+      <label>Behance / Project Link</label>
+      <input value="${q(k.link)}" placeholder="https://behance.net/…" oninput="works[${i}].link=this.value">`;
+    w.appendChild(d);
   });
 }
-function addWork()      { works.push({title:'New Project',img:'',link:'https://www.behance.net/mbarakat960b56'}); renderWorks(); }
-function removeWork(i)  { works.splice(i,1); renderWorks(); }
+function addWork()    { works.push({title:'New Project',sub:'Category',img:'',link:''}); renderWorks(); }
+function delWork(i)   { works.splice(i,1); renderWorks(); }
 
-// ─────────────────────────────────────────────
-//  RENDER SERVICES
-// ─────────────────────────────────────────────
-function renderServices() {
-  const c = document.getElementById('svc-list');
-  c.innerHTML = '';
-  services.forEach((s, i) => {
-    const d = document.createElement('div');
-    d.className = 'svc-item';
+/* ─── RENDER SERVICES ─── */
+function renderSvcs() {
+  const w = $('svc-wrap'); w.innerHTML = '';
+  svcs.forEach((s,i) => {
+    const d = document.createElement('div'); d.className='svc';
     d.innerHTML = `
-      <button class="del-btn svc-del" onclick="removeService(${i})">✕</button>
+      <button class="delbtn" style="position:static;width:24px;min-width:24px;height:24px;" onclick="delSvc(${i})">✕</button>
       <div style="flex:1">
-        <div style="display:flex;gap:.5rem;margin-bottom:.5rem;">
-          <input class="svc-icon-input" type="text" value="${xss(s.icon)}"
-            oninput="services[${i}].icon=this.value" placeholder="🎨">
-          <input type="text" value="${xss(s.title)}"
-            oninput="services[${i}].title=this.value" placeholder="Service Title" style="flex:1">
+        <div style="display:flex;gap:.45rem;margin-bottom:.4rem;">
+          <input class="icon-inp" value="${q(s.icon)}" oninput="svcs[${i}].icon=this.value">
+          <input style="flex:1" value="${q(s.title)}" oninput="svcs[${i}].title=this.value" placeholder="Service name">
         </div>
-        <textarea oninput="services[${i}].desc=this.value"
-          placeholder="Short description…">${xss(s.desc)}</textarea>
+        <textarea oninput="svcs[${i}].desc=this.value" placeholder="Description…">${q(s.desc)}</textarea>
       </div>`;
-    c.appendChild(d);
+    w.appendChild(d);
   });
 }
-function addService()      { services.push({icon:'✨',title:'New Service',desc:'Describe this service.'}); renderServices(); }
-function removeService(i)  { services.splice(i,1); renderServices(); }
+function addSvc()   { svcs.push({icon:'✨',title:'New Service',desc:'Description here.'}); renderSvcs(); }
+function delSvc(i)  { svcs.splice(i,1); renderSvcs(); }
 
-// ─────────────────────────────────────────────
-//  LOAD DATA FROM LIVE index.html
-// ─────────────────────────────────────────────
-function loadAllData() {
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(currentHTML, 'text/html');
+/* ─── LOAD DATA FROM LIVE HTML ─── */
+function loadData() {
+  const doc = new DOMParser().parseFromString(RAW, 'text/html');
 
-    // Slides
-    doc.querySelectorAll('.hero-bg-slide img').forEach((img, i) => {
-      if (i < 4) {
-        slides[i].url = img.getAttribute('src') || '';
-        slides[i].alt = img.getAttribute('alt') || `Hero Background ${i+1}`;
-      }
-    });
+  /* Hero text */
+  const nameEl = doc.querySelector('.hero-name');
+  if (nameEl) {
+    $('h-fname').value = nameEl.firstChild?.textContent?.trim() || 'Mohamed';
+    $('h-lname').value = nameEl.querySelector('.gold')?.textContent?.trim() || 'Barakat';
+  }
+  const badgeEl = doc.querySelector('.hero-badge');
+  if (badgeEl) $('h-badge').value = badgeEl.textContent.trim();
 
-    // Hero text
-    const nameEl = doc.querySelector('.hero-name');
-    if (nameEl) {
-      const goldEl = nameEl.querySelector('.gold');
-      const rawText = nameEl.childNodes[0]?.textContent?.trim() || '';
-      if (rawText) document.getElementById('hero-fname').value = rawText;
-      if (goldEl)  document.getElementById('hero-lname').value = goldEl.textContent.trim();
+  const roleEl = doc.querySelector('.hero-role strong');
+  if (roleEl) $('h-role').value = roleEl.textContent.trim();
+
+  const roleP = doc.querySelector('.hero-role');
+  if (roleP) {
+    // desc is the text node after <br>
+    const br = roleP.querySelector('br');
+    if (br && br.nextSibling) {
+      $('h-desc').value = br.nextSibling.textContent.trim();
     }
-    const badgeEl = doc.querySelector('.hero-badge');
-    if (badgeEl) document.getElementById('hero-badge').value = badgeEl.textContent.trim();
+  }
 
-    const roleEl = doc.querySelector('.hero-role strong');
-    if (roleEl) document.getElementById('hero-role').value = roleEl.textContent.trim();
-    const roleP = doc.querySelector('.hero-role');
-    if (roleP) {
-      const descNode = [...roleP.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
-      if (descNode) document.getElementById('hero-desc').value = descNode.textContent.trim();
+  /* Background slides */
+  doc.querySelectorAll('.hero-bg-slide img').forEach((img,i) => {
+    if (i < 4) {
+      bgSlides[i].url = img.getAttribute('src') || '';
+      bgSlides[i].alt = img.getAttribute('alt') || `Hero Background ${i+1}`;
     }
+  });
 
-    // Services
-    const svcCards = doc.querySelectorAll('.service-card');
-    if (svcCards.length) {
-      services = [...svcCards].map(c => ({
-        icon:  c.querySelector('.svc-icon')?.textContent?.trim()  || '✨',
-        title: c.querySelector('.svc-title')?.textContent?.trim() || '',
-        desc:  c.querySelector('.svc-desc')?.textContent?.trim()  || '',
+  /* Works — load from JSON comment */
+  const wm = RAW.match(/<!--WORKS:([\s\S]*?)-->/);
+  if (wm) { try { works = JSON.parse(wm[1]); } catch(e){} }
+  else {
+    /* parse from existing slides-track */
+    const slideEls = doc.querySelectorAll('#track .slide');
+    if (slideEls.length) {
+      works = [...slideEls].map(sl => ({
+        title: sl.querySelector('h3')?.textContent?.trim() || '',
+        sub:   sl.querySelector('.slide-label p')?.textContent?.trim() || '',
+        img:   sl.querySelector('img')?.getAttribute('src') || '',
+        link:  sl.querySelector('a')?.getAttribute('href') || '',
       }));
     }
-
-    // Stats
-    const statNums = doc.querySelectorAll('.stat-num');
-    statNums.forEach((el, i) => {
-      const inp = document.getElementById('stat-' + i);
-      if (inp) inp.value = el.textContent.trim();
-    });
-
-    // About headline
-    const aboutSection = doc.getElementById('about');
-    if (aboutSection) {
-      const h2 = aboutSection.querySelector('.section-title');
-      if (h2) document.getElementById('about-headline').value = h2.textContent.trim();
-      const paras = aboutSection.querySelectorAll('.about-text p');
-      if (paras[0]) document.getElementById('about-p1').value = paras[0].textContent.trim();
-      if (paras[1]) document.getElementById('about-p2').value = paras[1].textContent.trim();
-    }
-
-    // Social links — find by title attribute
-    const socKeys = {
-      facebook:  'soc-facebook',
-      instagram: 'soc-instagram',
-      tiktok:    'soc-tiktok',
-      behance:   'soc-behance',
-      linkedin:  'soc-linkedin',
-    };
-    doc.querySelectorAll('a[title]').forEach(a => {
-      const key = a.getAttribute('title')?.toLowerCase();
-      if (socKeys[key]) {
-        const inp = document.getElementById(socKeys[key]);
-        if (inp && a.href) inp.value = a.href;
-      }
-    });
-
-    // Email
-    const mailLink = doc.querySelector('a[href^="mailto:"]');
-    if (mailLink) document.getElementById('contact-email').value = mailLink.href.replace('mailto:','');
-
-    // CV path
-    const cvLink = doc.querySelector('a[download]');
-    if (cvLink) document.getElementById('cv-path').value = cvLink.getAttribute('href');
-
-    // Best work — load from injected data comment if present
-    const wdMatch = currentHTML.match(/<!--BESTWORK_DATA:([\s\S]*?)-->/);
-    if (wdMatch) {
-      try { works = JSON.parse(wdMatch[1]); } catch(e){}
-    }
-
-  } catch(e) {
-    console.warn('loadAllData error:', e);
   }
 
-  renderSlides();
-  renderWorks();
-  renderServices();
+  /* Services */
+  const svcEls = doc.querySelectorAll('.service-card');
+  if (svcEls.length) {
+    svcs = [...svcEls].map(c => ({
+      icon:  c.querySelector('.svc-icon')?.textContent?.trim()  || '✨',
+      title: c.querySelector('.svc-title')?.textContent?.trim() || '',
+      desc:  c.querySelector('.svc-desc')?.textContent?.trim()  || '',
+    }));
+  }
+
+  /* Stats */
+  const statNums  = doc.querySelectorAll('.stat-num');
+  const statLabels= doc.querySelectorAll('.stat-lbl');
+  [[0,'s0n','s0l'],[1,'s1n','s1l'],[2,'s2n','s2l'],[3,'s3n','s3l']].forEach(([i,ni,li]) => {
+    if (statNums[i])   $(ni).value = statNums[i].textContent.trim();
+    if (statLabels[i]) $(li).value = statLabels[i].textContent.trim();
+  });
+
+  /* About paragraphs */
+  const aboutPs = doc.querySelectorAll('#about .about-text p');
+  if (aboutPs[0]) $('a-p1').value = aboutPs[0].textContent.trim();
+  if (aboutPs[1]) $('a-p2').value = aboutPs[1].textContent.trim();
+  if (aboutPs[2]) $('a-p3').value = aboutPs[2].textContent.trim();
+
+  /* Social links */
+  const socMap = {Facebook:'sc-fb',Instagram:'sc-ig',TikTok:'sc-tt',Behance:'sc-bh',LinkedIn:'sc-li'};
+  doc.querySelectorAll('a[title]').forEach(a => {
+    const id = socMap[a.getAttribute('title')];
+    if (id) $(id).value = a.getAttribute('href') || '';
+  });
+
+  /* Email */
+  const ml = doc.querySelector('a[href^="mailto:"]');
+  if (ml) $('cc-email').value = ml.getAttribute('href').replace('mailto:','');
+
+  /* Phone */
+  const tel = doc.querySelector('a[href^="tel:"]');
+  if (tel) $('cc-phone').value = tel.nextSibling?.textContent?.trim() || '';
+
+  /* CV */
+  const cv = doc.querySelector('a[download]');
+  if (cv) $('cv-path').value = cv.getAttribute('href') || '/Mohamed-Barakat-CV.pdf';
+
+  renderSlides(); renderWorks(); renderSvcs();
 }
 
-// ─────────────────────────────────────────────
-//  BUILD NEW index.html
-// ─────────────────────────────────────────────
-function buildNewHTML() {
-  let html = currentHTML;
+/* ─── BUILD NEW HTML ─── */
+function build() {
+  let h = RAW;
 
-  // 1. Hero name
-  html = html.replace(
+  /* 1 — Hero name */
+  h = h.replace(
     /<h1 class="hero-name">[\s\S]*?<\/h1>/,
-    `<h1 class="hero-name">${esc(v('hero-fname'))}<br><span class="gold">${esc(v('hero-lname'))}</span></h1>`
+    `<h1 class="hero-name">${e($('h-fname').value)}<br><span class="gold">${e($('h-lname').value)}</span></h1>`
   );
 
-  // 2. Hero badge
-  html = html.replace(
+  /* 2 — Badge */
+  h = h.replace(
     /<div class="hero-badge">[\s\S]*?<\/div>/,
-    `<div class="hero-badge">${esc(v('hero-badge'))}</div>`
+    `<div class="hero-badge">${e($('h-badge').value)}</div>`
   );
 
-  // 3. Hero role paragraph
-  html = html.replace(
+  /* 3 — Role paragraph */
+  h = h.replace(
     /<p class="hero-role">[\s\S]*?<\/p>/,
-    `<p class="hero-role">\n      <strong>${esc(v('hero-role'))}</strong><br>\n      ${esc(v('hero-desc'))}\n    </p>`
+    `<p class="hero-role">\n      <strong>${e($('h-role').value)}</strong><br>\n      ${e($('h-desc').value)}\n    </p>`
   );
 
-  // 4. Background slides block
-  let slidesBlock = `<!-- Background Slider -->
-  <div class="hero-bg-slider" id="heroBgSlider">
-    <div class="hero-bg-track" id="heroBgTrack">
-`;
-  slides.forEach((s, i) => {
-    slidesBlock += `      <!-- Slide ${i+1} -->\n      <div class="hero-bg-slide">\n`;
-    if (s.url) {
-      slidesBlock += `        <img src="${xss(s.url)}" alt="${xss(s.alt)}" onload="this.classList.add('loaded')">\n`;
-    } else {
-      slidesBlock += `        <!-- <img src="YOUR_IMAGE_${i+1}.jpg" alt="${xss(s.alt)}" onload="this.classList.add('loaded')"> -->\n`;
-    }
-    slidesBlock += `      </div>\n`;
+  /* 4 — Background slides */
+  let sBlock = `<!-- Background Slider -->\n  <div class="hero-bg-slider" id="heroBgSlider">\n    <div class="hero-bg-track" id="heroBgTrack">\n`;
+  bgSlides.forEach((s,i) => {
+    sBlock += `      <!-- Slide ${i+1} -->\n      <div class="hero-bg-slide">\n`;
+    sBlock += s.url
+      ? `        <img src="${q(s.url)}" alt="${q(s.alt)}" onload="this.classList.add('loaded')">\n`
+      : `        <!-- <img src="IMAGE_${i+1}.jpg" alt="${q(s.alt)}" onload="this.classList.add('loaded')"> -->\n`;
+    sBlock += `      </div>\n`;
   });
-  slidesBlock += `    </div>
-    <div class="hero-bg-overlay"></div>
-    <!-- Progress bar -->
-    <div class="hero-slider-progress" id="heroProgress"></div>
-    <!-- Dots -->
-    <div class="hero-slider-dots" id="heroDots"></div>
-  </div>`;
-
-  html = html.replace(
+  sBlock += `    </div>\n    <div class="hero-bg-overlay"></div>\n    <!-- Progress bar -->\n    <div class="hero-slider-progress" id="heroProgress"></div>\n    <!-- Dots -->\n    <div class="hero-slider-dots" id="heroDots"></div>\n  </div>`;
+  h = h.replace(
     /<!-- Background Slider -->[\s\S]*?id="heroDots"><\/div>\n  <\/div>/,
-    slidesBlock
+    sBlock
   );
 
-  // 5. Social links — replace each network's href globally
-  const socMap = {
-    facebook:  v('soc-facebook'),
-    instagram: v('soc-instagram'),
-    tiktok:    v('soc-tiktok'),
-    behance:   v('soc-behance'),
-    linkedin:  v('soc-linkedin'),
-  };
-  const domainMap = {
-    facebook:  'facebook.com',
-    instagram: 'instagram.com',
-    tiktok:    'tiktok.com',
-    behance:   'behance.net',
-    linkedin:  'linkedin.com',
-  };
-  Object.entries(socMap).forEach(([net, newUrl]) => {
-    if (!newUrl) return;
-    const domain = domainMap[net].replace('.', '\\.');
-    const rx = new RegExp(`href="https?://(?:www\\.)?${domain}[^"]*"`, 'g');
-    html = html.replace(rx, `href="${newUrl}"`);
+  /* 5 — Social links — all occurrences per domain */
+  const socPairs = [
+    ['sc-fb',  'facebook.com'],
+    ['sc-ig',  'instagram.com'],
+    ['sc-tt',  'tiktok.com'],
+    ['sc-bh',  'behance.net'],
+    ['sc-li',  'linkedin.com'],
+  ];
+  socPairs.forEach(([id, domain]) => {
+    const url = $(id).value.trim();
+    if (!url) return;
+    const rx = new RegExp('href="https?://(?:www\\.)?'+ domain.replace('.','\\.')+'[^"]*"', 'g');
+    h = h.replace(rx, `href="${url}"`);
   });
 
-  // 6. Email
-  const email = v('contact-email');
-  if (email) html = html.replace(/href="mailto:[^"]*"/g, `href="mailto:${email}"`);
-
-  // 7. CV path
-  const cvPath = v('cv-path');
-  if (cvPath) {
-    html = html.replace(/href="[^"]*\.pdf"/g, `href="${cvPath}"`);
-    html = html.replace(/download="[^"]*\.pdf"/g, `download="${cvPath.split('/').pop()}"`);
-  }
-
-  // 8. Services
-  const svcHTML = services.map(s =>
-    `    <div class="service-card reveal">\n      <div class="svc-icon">${s.icon}</div>\n      <h3 class="svc-title">${esc(s.title)}</h3>\n      <p class="svc-desc">${esc(s.desc)}</p>\n    </div>`
-  ).join('\n');
-  html = html.replace(
-    /<div class="services-grid">[\s\S]*?<\/div>(\s*<\/section>\s*<!-- PORTFOLIO)/,
-    `<div class="services-grid">\n${svcHTML}\n  </div>$1`
-  );
-
-  // 9. Stats — replace each stat-num individually using index marker
-  const statVals = [v('stat-0'), v('stat-1'), v('stat-2'), v('stat-3')];
-  let statIdx = 0;
-  html = html.replace(/<div class="stat-num">[^<]*<\/div>/g, (match) => {
-    const replacement = statIdx < statVals.length
-      ? `<div class="stat-num">${esc(statVals[statIdx])}</div>`
-      : match;
-    statIdx++;
-    return replacement;
-  });
-
-  // 10. About headline
-  const aboutH = v('about-headline');
-  if (aboutH) {
-    // Replace the section-title inside the about section only
-    html = html.replace(
-      /(<section id="about"[\s\S]*?<h2 class="section-title">)[^<]*(<\/h2>)/,
-      `$1${esc(aboutH)}$2`
+  /* 6 — Email */
+  const em = $('cc-email').value.trim();
+  if (em) {
+    h = h.replace(/href="mailto:[^"]*"/g, `href="mailto:${em}"`);
+    // also update the text node next to email link
+    h = h.replace(
+      /(<a href="mailto:[^"]*"[^>]*>\s*<div[^>]*>[\s\S]*?<\/div>)\s*[^\s<][^<]*/,
+      `$1${em}`
+    );
+    // Update form submit button mailto
+    h = h.replace(
+      /window\.location\.href='mailto:[^']*'/g,
+      `window.location.href='mailto:${em}'`
     );
   }
 
-  // 11. About paragraphs
-  const p1 = v('about-p1'), p2 = v('about-p2');
-  if (p1 || p2) {
-    const aboutParas = html.match(/<div class="about-text">([\s\S]*?)<\/div>/);
-    if (aboutParas) {
-      let newAbout = `<div class="about-text">`;
-      if (p1) newAbout += `\n        <p>${esc(p1)}</p>`;
-      if (p2) newAbout += `\n        <p>${esc(p2)}</p>`;
-      newAbout += `\n      </div>`;
-      html = html.replace(/<div class="about-text">[\s\S]*?<\/div>/, newAbout);
-    }
+  /* 7 — Phone */
+  const ph = $('cc-phone').value.trim();
+  if (ph) {
+    // Replace tel: href and visible text
+    const phNum = ph.replace(/\D/g,'');
+    h = h.replace(/href="tel:[^"]*"/g, `href="tel:${phNum}"`);
   }
 
-  // 12. Best work data (stored as comment for round-trip)
-  const wdJson = JSON.stringify(works);
-  if (html.includes('<!--BESTWORK_DATA:')) {
-    html = html.replace(/<!--BESTWORK_DATA:[\s\S]*?-->/, `<!--BESTWORK_DATA:${wdJson}-->`);
+  /* 8 — CV */
+  const cv = $('cv-path').value.trim();
+  if (cv) {
+    h = h.replace(/href="[^"]*\.pdf"/g, `href="${cv}"`);
+    h = h.replace(/download="[^"]*"/g,  `download="${cv.split('/').pop()}"`);
+  }
+
+  /* 9 — Services */
+  const svcHTML = svcs.map(s =>
+    `    <div class="service-card reveal">\n      <div class="svc-icon">${s.icon}</div>\n      <h3 class="svc-title">${e(s.title)}</h3>\n      <p class="svc-desc">${e(s.desc)}</p>\n    </div>`
+  ).join('\n');
+  h = h.replace(
+    /<div class="services-grid">[\s\S]*?<\/div>(?=\s*\n<\/section>\s*\n<!-- PORTFOLIO)/,
+    `<div class="services-grid">\n${svcHTML}\n  </div>`
+  );
+
+  /* 10 — Stats — replace by counter */
+  let ni = 0, li = 0;
+  const sNums  = ['s0n','s1n','s2n','s3n'].map(id => $(id).value);
+  const sLbls  = ['s0l','s1l','s2l','s3l'].map(id => $(id).value);
+  h = h.replace(/<div class="stat-num">[^<]*<\/div>/g,  () => `<div class="stat-num">${e(sNums[ni++]||'')}</div>`);
+  h = h.replace(/<div class="stat-lbl">[^<]*<\/div>/g,  () => `<div class="stat-lbl">${e(sLbls[li++]||'')}</div>`);
+
+  /* 11 — About paragraphs */
+  const aP1 = $('a-p1').value.trim();
+  const aP2 = $('a-p2').value.trim();
+  const aP3 = $('a-p3').value.trim();
+  h = h.replace(
+    /(<div class="about-text reveal">[\s\S]*?<div[^>]*section-divider[^>]*><\/div>\s*)([\s\S]*?)(<div class="about-btns">)/,
+    (_, pre, _mid, post) =>
+      `${pre}    <p>${e(aP1)}</p>\n    <p>${e(aP2)}</p>\n    <p>${e(aP3)}</p>\n    ${post}`
+  );
+
+  /* 12 — Best Work slides */
+  const wSlides = works.map((k,i) => {
+    const imgEl = k.img
+      ? `<img src="${q(k.img)}" alt="${q(k.title)}" onload="this.classList.add('loaded')" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+      : `<div class="slide-placeholder"><span class="pl-icon">🖼️</span><span class="pl-txt">Add your image here</span></div>`;
+    const linkOpen  = k.link ? `<a href="${q(k.link)}" target="_blank" style="display:contents;">` : '';
+    const linkClose = k.link ? `</a>` : '';
+    return `
+      <!-- Slide ${i+1} -->
+      <div class="slide">
+        <div class="slide-inner">
+          ${linkOpen}${imgEl}${linkClose}
+        </div>
+        <div class="slide-label">
+          <h3>${e(k.title)}</h3>
+          <p>${e(k.sub)}</p>
+        </div>
+      </div>`;
+  }).join('\n');
+
+  h = h.replace(
+    /(<div class="slides-track" id="track">)([\s\S]*?)(<\/div><!-- \/track -->)/,
+    `$1\n${wSlides}\n\n    $3`
+  );
+
+  /* 13 — Store works as JSON comment for round-trip */
+  const wJson = JSON.stringify(works);
+  if (h.includes('<!--WORKS:')) {
+    h = h.replace(/<!--WORKS:[\s\S]*?-->/, `<!--WORKS:${wJson}-->`);
   } else {
-    html = html.replace('<!-- HERO -->', `<!--BESTWORK_DATA:${wdJson}-->\n<!-- HERO -->`);
+    h = h.replace('<!-- HERO -->', `<!--WORKS:${wJson}-->\n<!-- HERO -->`);
   }
 
-  return html;
+  return h;
 }
 
-// ─────────────────────────────────────────────
-//  COMMIT MODAL
-// ─────────────────────────────────────────────
-function openCommitModal()  { document.getElementById('commit-modal').classList.add('open'); }
-function closeCommitModal() { document.getElementById('commit-modal').classList.remove('open'); }
+/* ─── PUSH ─── */
+function openModal()  { $('modal').classList.add('on'); }
+function closeModal() { $('modal').classList.remove('on'); }
 
-async function pushToGitHub() {
-  const msg = document.getElementById('commit-msg').value.trim() || 'Update site via dashboard';
-  closeCommitModal();
-  showProgress(10);
+async function push() {
+  const msg = $('cmsg').value.trim() || 'Update site via dashboard';
+  closeModal();
+  prog(10);
 
   let newHTML;
-  try { newHTML = buildNewHTML(); }
-  catch(e) { toast('❌','Build error: '+e.message,'error'); hideProgress(); return; }
+  try { newHTML = build(); }
+  catch(ex) { toast('❌','Build error: '+ex.message,'er'); prog(0); return; }
 
-  showProgress(35);
-  let encoded;
-  try { encoded = btoa(unescape(encodeURIComponent(newHTML))); }
-  catch(e) { toast('❌','Encoding error: '+e.message,'error'); hideProgress(); return; }
+  prog(40);
+  let enc;
+  try { enc = btoa(unescape(encodeURIComponent(newHTML))); }
+  catch(ex) { toast('❌','Encode error: '+ex.message,'er'); prog(0); return; }
 
-  showProgress(60);
+  prog(65);
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+    const r = await fetch(
+      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,
       {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${GH_TOKEN}`,
-          'Content-Type': 'application/json',
-          'X-GitHub-Api-Version': '2022-11-28',
+        method:'PUT',
+        headers:{
+          Authorization:`Bearer ${TOKEN}`,
+          'Content-Type':'application/json',
+          'X-GitHub-Api-Version':'2022-11-28',
         },
-        body: JSON.stringify({ message: msg, content: encoded, sha: fileSHA }),
+        body: JSON.stringify({message:msg, content:enc, sha:SHA}),
       }
     );
-    showProgress(90);
-    if (!res.ok) {
-      const errData = await res.json().catch(()=>({}));
-      toast('❌','Push failed: '+(errData.message||res.status),'error');
-      hideProgress(); return;
+    prog(90);
+    if (!r.ok) {
+      const er = await r.json().catch(()=>({}));
+      toast('❌','Push failed: '+(er.message||r.status),'er');
+      prog(0); return;
     }
-    const data = await res.json();
-    fileSHA     = data.content.sha;
-    currentHTML = newHTML;
-    showProgress(100);
-    setTimeout(hideProgress, 700);
-    toast('🚀','Pushed! Site updates in ~1 min.','success');
-  } catch(e) {
-    toast('❌','Network error: '+e.message,'error');
-    hideProgress();
-  }
+    const d = await r.json();
+    SHA = d.content.sha;
+    RAW = newHTML;
+    prog(100);
+    setTimeout(()=>prog(0), 700);
+    toast('🚀','Pushed! Site updates in ~1 min.','ok');
+  } catch(ex) { toast('❌','Network error: '+ex.message,'er'); prog(0); }
 }
 
-// ─────────────────────────────────────────────
-//  CREATE NEW PAGE
-// ─────────────────────────────────────────────
-async function createNewPage() {
-  const title   = v('new-page-title');
-  const slug    = v('new-page-slug');
-  const content = document.getElementById('new-page-content').value;
-  if (!title || !slug) { toast('⚠️','Fill in title and slug first.','error'); return; }
+/* ─── CREATE PAGE ─── */
+async function createPage() {
+  const title = $('pg-title').value.trim();
+  const slug  = $('pg-slug').value.trim();
+  const body  = $('pg-body').value;
+  if (!title||!slug) { toast('⚠️','Enter title and slug.','er'); return; }
 
-  const pageHTML = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>${title} — Mohamed Barakat</title>
-<link rel="icon" href="/favicon.ico">
 <style>
-  body{font-family:system-ui,sans-serif;background:#0f0a14;color:#e8e0f0;margin:0;}
-  nav{padding:1.2rem 2rem;border-bottom:1px solid rgba(201,169,110,.15);}
-  nav a{color:#c9a96e;font-weight:700;text-decoration:none;}
-  main{max-width:900px;margin:3rem auto;padding:0 1.5rem;}
+  body{font-family:system-ui,sans-serif;background:#23132d;color:#f0eaf8;margin:0;}
+  nav{padding:1.1rem 2rem;border-bottom:1px solid rgba(201,169,110,.15);}
+  nav a{color:#c9a96e;font-weight:700;text-decoration:none;font-size:.9rem;}
+  main{max-width:880px;margin:3rem auto;padding:0 1.5rem;}
 </style>
 </head>
 <body>
 <nav><a href="/">← Back to Portfolio</a></nav>
 <main>
-${content}
+${body}
 </main>
 </body>
 </html>`;
 
-  const encoded = btoa(unescape(encodeURIComponent(pageHTML)));
-  showProgress(30);
+  prog(30);
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${slug}.html`,
+    const r = await fetch(
+      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${slug}.html`,
       {
-        method: 'PUT',
-        headers: { Authorization:`Bearer ${GH_TOKEN}`, 'Content-Type':'application/json', 'X-GitHub-Api-Version':'2022-11-28' },
-        body: JSON.stringify({ message: `Add page: ${title}`, content: encoded }),
+        method:'PUT',
+        headers:{Authorization:`Bearer ${TOKEN}`,'Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'},
+        body: JSON.stringify({message:`Add page: ${title}`, content: btoa(unescape(encodeURIComponent(html)))}),
       }
     );
-    showProgress(90);
-    if (!res.ok) { const e=await res.json().catch(()=>({})); toast('❌',e.message||res.status,'error'); hideProgress(); return; }
-    setTimeout(hideProgress, 400);
-    toast('✅',`Page created: /${slug}.html`,'success');
+    prog(90);
+    if (!r.ok) { const er=await r.json().catch(()=>({})); toast('❌',er.message||r.status,'er'); prog(0); return; }
+    setTimeout(()=>prog(0), 500);
+    toast('✅',`Created: /${slug}.html`,'ok');
 
-    const list = document.getElementById('page-list');
-    const d = document.createElement('div');
-    d.className = 'page-item';
-    d.innerHTML = `<div><div class="page-item-name">${title}</div><div class="page-item-slug">${slug}.html</div></div><span style="font-size:.75rem;color:var(--green);">● Created</span>`;
-    list.appendChild(d);
+    const d = document.createElement('div'); d.className='pgitem';
+    d.innerHTML=`<div><div class="pgname">${title}</div><div class="pgslug">${slug}.html</div></div><span style="font-size:.73rem;color:var(--green);">● Created</span>`;
+    $('pg-list').appendChild(d);
 
-    ['new-page-title','new-page-slug'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('new-page-content').value='';
-  } catch(e) { toast('❌',e.message,'error'); hideProgress(); }
+    $('pg-title').value=$('pg-slug').value=$('pg-body').value='';
+  } catch(ex){ toast('❌',ex.message,'er'); prog(0); }
 }
 
-// ─────────────────────────────────────────────
-//  UTILS
-// ─────────────────────────────────────────────
-function v(id)    { return document.getElementById(id)?.value ?? ''; }
-function esc(s)   { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function xss(s)   { return String(s||'').replace(/"/g,'&#34;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function toast(icon, msg, type='') {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-icon').textContent = icon;
-  document.getElementById('toast-msg').textContent  = msg;
-  t.className = `toast show ${type}`;
-  clearTimeout(t._tid);
-  t._tid = setTimeout(()=>{ t.className='toast'; }, 4500);
+/* ─── UTILS ─── */
+function $(id)  { return document.getElementById(id); }
+function e(s)   { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function q(s)   { return String(s||'').replace(/"/g,'&#34;').replace(/</g,'&lt;'); }
+function b64dec(s) {
+  return decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
 }
-function showProgress(pct) {
-  document.getElementById('progress-bar').classList.add('show');
-  document.getElementById('progress-fill').style.width = pct+'%';
+function toast(icon, msg, cls='') {
+  $('ticon').textContent = icon;
+  $('tmsg').textContent  = msg;
+  const t = $('toast');
+  t.className = `toast on ${cls}`;
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>{ t.className='toast'; }, 4500);
 }
-function hideProgress() {
-  document.getElementById('progress-bar').classList.remove('show');
-  document.getElementById('progress-fill').style.width='0%';
+function prog(pct) {
+  const bar = $('pbar'), fill = $('pfill');
+  if (pct === 0) { bar.classList.remove('on'); fill.style.width='0%'; }
+  else { bar.classList.add('on'); fill.style.width = pct+'%'; }
 }
 </script>
 </body>
