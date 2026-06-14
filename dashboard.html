@@ -6,556 +6,410 @@
 <title>Site Dashboard — Mohamed Barakat</title>
 <style>
   :root {
-    --bg: #0f0a14;
-    --surface: #1a1025;
-    --surface2: #231337;
-    --border: rgba(201,169,110,.15);
-    --accent: #c9a96e;
-    --accent2: #9b6fc4;
-    --text: #e8e0f0;
-    --muted: #8a7a9a;
-    --red: #e05555;
-    --green: #5dca82;
-    --radius: .6rem;
+    --bg:#0f0a14; --surface:#1a1025; --surface2:#231337;
+    --border:rgba(201,169,110,.15); --accent:#c9a96e; --accent2:#9b6fc4;
+    --text:#e8e0f0; --muted:#8a7a9a; --red:#e05555; --green:#5dca82;
+    --radius:.6rem;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* ── LOGIN ── */
-  #login-screen {
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100vh;
-    background: radial-gradient(ellipse at 30% 40%, rgba(155,111,196,.18) 0%, transparent 65%),
-                radial-gradient(ellipse at 70% 70%, rgba(201,169,110,.10) 0%, transparent 60%), var(--bg);
-  }
-  .login-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 1rem; padding: 2.5rem; width: min(420px, 90vw);
-    box-shadow: 0 24px 80px rgba(0,0,0,.5);
-  }
-  .login-logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: .4rem; }
-  .login-sub  { font-size: .8rem; color: var(--muted); margin-bottom: 2rem; }
-  .field { margin-bottom: 1.2rem; }
-  .field label { display: block; font-size: .78rem; color: var(--muted); margin-bottom: .5rem; letter-spacing: .05em; text-transform: uppercase; }
-  .field input {
-    width: 100%; padding: .75rem 1rem; border-radius: var(--radius);
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .9rem; outline: none; transition: border-color .2s;
-  }
-  .field input:focus { border-color: var(--accent); }
-  .field input[type=password] { letter-spacing: .15em; }
-  .btn-primary {
-    width: 100%; padding: .85rem; border-radius: var(--radius);
-    background: var(--accent); color: #1a0d00; font-weight: 700;
-    font-size: .95rem; border: none; cursor: pointer; transition: opacity .2s;
-  }
-  .btn-primary:hover { opacity: .88; }
-  #login-err { color: var(--red); font-size: .8rem; margin-top: .8rem; text-align: center; min-height: 1.2em; }
-  .login-hint { font-size: .73rem; color: var(--muted); margin-top: 1.2rem; text-align: center; line-height: 1.6; }
+  /* LOGIN */
+  #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;
+    background:radial-gradient(ellipse at 30% 40%,rgba(155,111,196,.18) 0%,transparent 65%),
+               radial-gradient(ellipse at 70% 70%,rgba(201,169,110,.10) 0%,transparent 60%),var(--bg);}
+  .login-box{background:var(--surface);border:1px solid var(--border);border-radius:1rem;
+    padding:2.5rem;width:min(420px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  .login-logo{font-size:1.5rem;font-weight:700;color:var(--accent);margin-bottom:.4rem;}
+  .login-sub{font-size:.8rem;color:var(--muted);margin-bottom:2rem;}
+  .field{margin-bottom:1.2rem;}
+  .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.05em;text-transform:uppercase;}
+  .field input{width:100%;padding:.75rem 1rem;border-radius:var(--radius);background:var(--bg);
+    border:1px solid var(--border);color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;}
+  .field input:focus{border-color:var(--accent);}
+  .btn-primary{width:100%;padding:.85rem;border-radius:var(--radius);background:var(--accent);
+    color:#1a0d00;font-weight:700;font-size:.95rem;border:none;cursor:pointer;transition:opacity .2s;}
+  .btn-primary:hover{opacity:.88;}
+  #login-err{color:var(--red);font-size:.8rem;margin-top:.8rem;text-align:center;min-height:1.2em;}
+  .login-hint{font-size:.73rem;color:var(--muted);margin-top:1.2rem;text-align:center;line-height:1.6;}
 
-  /* ── DASHBOARD ── */
-  #dashboard { display: none; }
-  .dash-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(15,10,20,.92); backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 1.5rem; display: flex; align-items: center; gap: 1rem;
-    height: 58px;
-  }
-  .dash-nav-logo { font-weight: 700; color: var(--accent); font-size: 1rem; margin-right: auto; }
-  .nav-tab {
-    background: none; border: none; color: var(--muted); font-size: .82rem;
-    padding: .4rem .8rem; border-radius: .35rem; cursor: pointer;
-    transition: all .2s; white-space: nowrap;
-  }
-  .nav-tab:hover, .nav-tab.active { background: rgba(201,169,110,.12); color: var(--accent); }
-  .dash-save-btn {
-    background: var(--accent); color: #1a0d00; border: none;
-    padding: .45rem 1.1rem; border-radius: var(--radius);
-    font-weight: 700; font-size: .82rem; cursor: pointer; transition: opacity .2s;
-  }
-  .dash-save-btn:hover { opacity: .88; }
-  .dash-save-btn:disabled { opacity: .4; cursor: not-allowed; }
-  .logout-btn {
-    background: none; border: 1px solid rgba(224,85,85,.35); color: var(--red);
-    padding: .38rem .8rem; border-radius: var(--radius); font-size: .78rem;
-    cursor: pointer; transition: all .2s;
-  }
-  .logout-btn:hover { background: rgba(224,85,85,.12); }
+  /* DASHBOARD */
+  #dashboard{display:none;}
+  .dash-nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.94);
+    backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+    padding:0 1.2rem;display:flex;align-items:center;gap:.6rem;height:58px;overflow-x:auto;}
+  .dash-nav-logo{font-weight:700;color:var(--accent);font-size:1rem;margin-right:auto;white-space:nowrap;}
+  .nav-tab{background:none;border:none;color:var(--muted);font-size:.8rem;padding:.4rem .7rem;
+    border-radius:.35rem;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .nav-tab:hover,.nav-tab.active{background:rgba(201,169,110,.12);color:var(--accent);}
+  .dash-save-btn{background:var(--accent);color:#1a0d00;border:none;padding:.42rem 1rem;
+    border-radius:var(--radius);font-weight:700;font-size:.8rem;cursor:pointer;
+    transition:opacity .2s;white-space:nowrap;}
+  .dash-save-btn:hover{opacity:.88;}
+  .logout-btn{background:none;border:1px solid rgba(224,85,85,.35);color:var(--red);
+    padding:.38rem .75rem;border-radius:var(--radius);font-size:.78rem;cursor:pointer;
+    transition:all .2s;white-space:nowrap;}
+  .logout-btn:hover{background:rgba(224,85,85,.12);}
+  .dash-body{padding:2rem 1.5rem;max-width:1100px;margin:0 auto;}
 
-  .dash-body { padding: 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  /* PANELS */
+  .panel{display:none;}.panel.active{display:block;}
+  .panel-title{font-size:1.1rem;font-weight:700;color:var(--accent);
+    margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;}
+  .card{background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1.4rem;margin-bottom:1.2rem;}
+  .card-title{font-size:.8rem;font-weight:600;color:var(--accent2);
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+  .form-group{margin-bottom:1rem;}
+  .form-group label{display:block;font-size:.76rem;color:var(--muted);margin-bottom:.4rem;}
+  .form-group input,.form-group textarea{width:100%;padding:.65rem .9rem;
+    border-radius:var(--radius);background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-size:.88rem;outline:none;transition:border-color .2s;font-family:inherit;}
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent);}
+  .form-group textarea{resize:vertical;min-height:80px;}
 
-  /* ── PANELS ── */
-  .panel { display: none; }
-  .panel.active { display: block; }
-  .panel-title { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: .6rem; }
+  /* SLIDES */
+  .slide-item{background:var(--surface2);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;margin-bottom:.8rem;
+    display:flex;gap:1rem;align-items:flex-start;}
+  .slide-num{min-width:28px;height:28px;background:rgba(201,169,110,.15);
+    color:var(--accent);border-radius:.3rem;display:flex;align-items:center;
+    justify-content:center;font-size:.75rem;font-weight:700;}
+  .slide-fields{flex:1;}
+  .slide-fields input{width:100%;padding:.55rem .8rem;border-radius:var(--radius);
+    background:var(--bg);border:1px solid var(--border);color:var(--text);
+    font-size:.85rem;outline:none;margin-bottom:.5rem;transition:border-color .2s;}
+  .slide-fields input:focus{border-color:var(--accent);}
+  .slide-img-preview{width:64px;min-width:64px;height:48px;border-radius:.35rem;
+    background:var(--bg);border:1px solid var(--border);object-fit:cover;display:block;}
+  .slide-img-placeholder{width:64px;min-width:64px;height:48px;border-radius:.35rem;
+    background:var(--bg);border:1px dashed var(--border);display:flex;align-items:center;
+    justify-content:center;font-size:.6rem;color:var(--muted);text-align:center;}
 
-  .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.4rem; margin-bottom: 1.2rem;
-  }
-  .card-title { font-size: .82rem; font-weight: 600; color: var(--accent2); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 1rem; }
+  /* BEST WORK */
+  .work-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;}
+  .work-card{background:var(--surface2);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;position:relative;}
+  .work-card input,.work-card textarea{width:100%;padding:.5rem .7rem;border-radius:.35rem;
+    background:var(--bg);border:1px solid var(--border);color:var(--text);
+    font-size:.82rem;outline:none;margin-bottom:.5rem;transition:border-color .2s;font-family:inherit;}
+  .work-card input:focus,.work-card textarea:focus{border-color:var(--accent);}
+  .work-card label{font-size:.72rem;color:var(--muted);display:block;margin-bottom:.25rem;}
+  .work-card-img{width:100%;height:110px;object-fit:cover;border-radius:.3rem;
+    background:var(--surface);display:block;margin-bottom:.7rem;}
+  .work-card-placeholder{width:100%;height:110px;border-radius:.3rem;background:var(--bg);
+    border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;
+    font-size:.72rem;color:var(--muted);margin-bottom:.7rem;}
+  .del-btn{position:absolute;top:.6rem;right:.6rem;background:rgba(224,85,85,.15);
+    border:1px solid rgba(224,85,85,.3);color:var(--red);border-radius:.3rem;
+    width:26px;height:26px;cursor:pointer;font-size:.9rem;display:flex;
+    align-items:center;justify-content:center;transition:all .2s;}
+  .del-btn:hover{background:rgba(224,85,85,.3);}
 
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-  @media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
-  .form-group { margin-bottom: 1rem; }
-  .form-group label { display: block; font-size: .76rem; color: var(--muted); margin-bottom: .4rem; letter-spacing: .04em; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: .65rem .9rem; border-radius: var(--radius);
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .88rem; outline: none; transition: border-color .2s; font-family: inherit;
-  }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
-  .form-group textarea { resize: vertical; min-height: 80px; }
+  /* SERVICES */
+  .svc-item{background:var(--surface2);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;margin-bottom:.7rem;
+    display:flex;gap:.8rem;align-items:flex-start;}
+  .svc-item input,.svc-item textarea{width:100%;padding:.5rem .7rem;border-radius:.35rem;
+    background:var(--bg);border:1px solid var(--border);color:var(--text);
+    font-size:.82rem;outline:none;margin-bottom:.4rem;transition:border-color .2s;font-family:inherit;}
+  .svc-item input:focus,.svc-item textarea:focus{border-color:var(--accent);}
+  .svc-item textarea{min-height:60px;resize:vertical;}
+  .svc-icon-input{width:52px!important;text-align:center;font-size:1.2rem!important;}
+  .svc-del{position:static!important;width:26px!important;height:26px!important;min-width:26px;}
 
-  /* ── SLIDES ── */
-  .slide-item {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1rem; margin-bottom: .8rem;
-    display: flex; gap: 1rem; align-items: flex-start;
-  }
-  .slide-num {
-    min-width: 28px; height: 28px; background: rgba(201,169,110,.15);
-    color: var(--accent); border-radius: .3rem; display: flex;
-    align-items: center; justify-content: center; font-size: .75rem; font-weight: 700;
-  }
-  .slide-fields { flex: 1; }
-  .slide-fields input {
-    width: 100%; padding: .55rem .8rem; border-radius: var(--radius);
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .85rem; outline: none; margin-bottom: .5rem;
-    transition: border-color .2s;
-  }
-  .slide-fields input:focus { border-color: var(--accent); }
-  .slide-img-preview {
-    width: 64px; min-width: 64px; height: 48px; border-radius: .35rem;
-    background: var(--bg); border: 1px dashed var(--border);
-    object-fit: cover; display: block;
-  }
-  .slide-img-placeholder {
-    width: 64px; min-width: 64px; height: 48px; border-radius: .35rem;
-    background: var(--bg); border: 1px dashed var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .6rem; color: var(--muted); text-align: center;
-  }
+  /* SOCIAL */
+  .social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;}
+  .social-field{display:flex;align-items:center;gap:.7rem;background:var(--surface2);
+    border:1px solid var(--border);border-radius:var(--radius);padding:.65rem .9rem;}
+  .social-ico{font-size:1rem;min-width:22px;text-align:center;color:var(--accent);}
+  .social-field input{flex:1;background:none;border:none;color:var(--text);
+    font-size:.82rem;outline:none;min-width:0;}
 
-  /* ── BEST WORK ── */
-  .work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1rem; }
-  .work-card {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1rem; position: relative;
-  }
-  .work-card input, .work-card textarea {
-    width: 100%; padding: .5rem .7rem; border-radius: .35rem;
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .82rem; outline: none; margin-bottom: .5rem;
-    transition: border-color .2s; font-family: inherit;
-  }
-  .work-card input:focus, .work-card textarea:focus { border-color: var(--accent); }
-  .work-card label { font-size: .72rem; color: var(--muted); display: block; margin-bottom: .25rem; }
-  .work-card-img {
-    width: 100%; height: 120px; object-fit: cover; border-radius: .3rem;
-    background: var(--bg); display: block; margin-bottom: .7rem;
-  }
-  .del-btn {
-    position: absolute; top: .6rem; right: .6rem;
-    background: rgba(224,85,85,.15); border: 1px solid rgba(224,85,85,.3);
-    color: var(--red); border-radius: .3rem; width: 26px; height: 26px;
-    cursor: pointer; font-size: 1rem; line-height: 1; display: flex;
-    align-items: center; justify-content: center; transition: all .2s;
-  }
-  .del-btn:hover { background: rgba(224,85,85,.3); }
+  /* ADD BTN */
+  .add-btn{display:flex;align-items:center;gap:.5rem;background:rgba(201,169,110,.06);
+    border:1px dashed rgba(201,169,110,.3);color:var(--accent);padding:.65rem 1.2rem;
+    border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:all .2s;
+    width:100%;justify-content:center;margin-top:.8rem;}
+  .add-btn:hover{background:rgba(201,169,110,.14);}
 
-  /* ── SERVICES ── */
-  .svc-item {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1rem; margin-bottom: .7rem;
-    display: flex; gap: .8rem; align-items: flex-start; position: relative;
-  }
-  .svc-item input, .svc-item textarea {
-    width: 100%; padding: .5rem .7rem; border-radius: .35rem;
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .82rem; outline: none; margin-bottom: .4rem;
-    transition: border-color .2s; font-family: inherit;
-  }
-  .svc-item input:focus, .svc-item textarea:focus { border-color: var(--accent); }
-  .svc-item textarea { min-height: 60px; resize: vertical; }
-  .svc-icon-input { width: 44px !important; text-align: center; font-size: 1.2rem !important; }
+  /* TOAST */
+  #toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1.2rem;
+    font-size:.85rem;display:none;align-items:center;gap:.6rem;
+    box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:300px;animation:slideIn .3s ease;}
+  @keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  #toast.show{display:flex;}
+  #toast.success{border-color:rgba(93,202,130,.4);}
+  #toast.error{border-color:rgba(224,85,85,.4);}
 
-  /* ── SOCIAL ── */
-  .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: .8rem; }
-  .social-field { display: flex; align-items: center; gap: .7rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: .65rem .9rem; }
-  .social-ico { font-size: 1.1rem; min-width: 24px; text-align: center; }
-  .social-field input { flex: 1; background: none; border: none; color: var(--text); font-size: .82rem; outline: none; min-width: 0; }
+  /* COMMIT MODAL */
+  #commit-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
+    display:none;align-items:center;justify-content:center;}
+  #commit-modal.open{display:flex;}
+  .commit-box{background:var(--surface);border:1px solid var(--border);
+    border-radius:1rem;padding:2rem;width:min(440px,90vw);}
+  .commit-box h3{color:var(--accent);margin-bottom:1rem;font-size:1rem;}
+  .commit-box p{color:var(--muted);font-size:.82rem;margin-bottom:1.2rem;line-height:1.7;}
+  .commit-box input{width:100%;padding:.7rem 1rem;border-radius:var(--radius);
+    background:var(--bg);border:1px solid var(--border);color:var(--text);
+    font-size:.88rem;outline:none;margin-bottom:1.2rem;transition:border-color .2s;}
+  .commit-box input:focus{border-color:var(--accent);}
+  .commit-actions{display:flex;gap:.8rem;justify-content:flex-end;}
+  .btn-ghost2{background:none;border:1px solid var(--border);color:var(--muted);
+    padding:.55rem 1rem;border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:all .2s;}
+  .btn-ghost2:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* ── ADD BTN ── */
-  .add-btn {
-    display: flex; align-items: center; gap: .5rem;
-    background: rgba(201,169,110,.08); border: 1px dashed rgba(201,169,110,.3);
-    color: var(--accent); padding: .65rem 1.2rem; border-radius: var(--radius);
-    cursor: pointer; font-size: .85rem; transition: all .2s; width: 100%;
-    justify-content: center; margin-top: .5rem;
-  }
-  .add-btn:hover { background: rgba(201,169,110,.15); }
+  /* PROGRESS */
+  .progress-bar{height:3px;background:rgba(201,169,110,.12);border-radius:2px;
+    margin-bottom:1.5rem;overflow:hidden;display:none;}
+  .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease;width:0%;}
+  .progress-bar.show{display:block;}
 
-  /* ── STATUS TOAST ── */
-  #toast {
-    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: .8rem 1.2rem;
-    font-size: .85rem; display: none; align-items: center; gap: .6rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,.4); max-width: 320px;
-    animation: slideIn .3s ease;
-  }
-  @keyframes slideIn { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-  #toast.show { display: flex; }
-  #toast.success { border-color: rgba(93,202,130,.4); }
-  #toast.error   { border-color: rgba(224,85,85,.4); }
-  .toast-icon { font-size: 1.1rem; }
-
-  /* ── COMMIT MODAL ── */
-  #commit-modal {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,.7); display: none;
-    align-items: center; justify-content: center;
-  }
-  #commit-modal.open { display: flex; }
-  .commit-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 1rem; padding: 2rem; width: min(440px, 90vw);
-  }
-  .commit-box h3 { color: var(--accent); margin-bottom: 1rem; font-size: 1rem; }
-  .commit-box p  { color: var(--muted); font-size: .82rem; margin-bottom: 1.2rem; line-height: 1.7; }
-  .commit-box input {
-    width: 100%; padding: .7rem 1rem; border-radius: var(--radius);
-    background: var(--bg); border: 1px solid var(--border); color: var(--text);
-    font-size: .88rem; outline: none; margin-bottom: 1.2rem;
-    transition: border-color .2s;
-  }
-  .commit-box input:focus { border-color: var(--accent); }
-  .commit-actions { display: flex; gap: .8rem; justify-content: flex-end; }
-  .btn-ghost2 {
-    background: none; border: 1px solid var(--border); color: var(--muted);
-    padding: .55rem 1rem; border-radius: var(--radius); cursor: pointer;
-    font-size: .85rem; transition: all .2s;
-  }
-  .btn-ghost2:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* ── PROGRESS ── */
-  .progress-bar {
-    height: 3px; background: rgba(201,169,110,.15); border-radius: 2px;
-    margin-bottom: 1.5rem; overflow: hidden; display: none;
-  }
-  .progress-fill {
-    height: 100%; background: var(--accent); border-radius: 2px;
-    transition: width .4s ease; width: 0%;
-  }
-  .progress-bar.show { display: block; }
-
-  /* ── PAGE BUILDER ── */
-  .page-list { }
-  .page-item {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1rem; margin-bottom: .7rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .page-item-info { }
-  .page-item-name { font-weight: 600; color: var(--text); margin-bottom: .25rem; }
-  .page-item-slug { font-size: .75rem; color: var(--muted); }
-  .page-item-actions { display: flex; gap: .5rem; }
-  .edit-page-btn {
-    background: rgba(155,111,196,.15); border: 1px solid rgba(155,111,196,.3);
-    color: var(--accent2); padding: .4rem .8rem; border-radius: .35rem;
-    cursor: pointer; font-size: .78rem; transition: all .2s;
-  }
-  .edit-page-btn:hover { background: rgba(155,111,196,.3); }
-
-  .section-sep { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  /* PAGES */
+  .page-item{background:var(--surface2);border:1px solid var(--border);
+    border-radius:var(--radius);padding:1rem;margin-bottom:.7rem;
+    display:flex;justify-content:space-between;align-items:center;}
+  .page-item-name{font-weight:600;margin-bottom:.2rem;}
+  .page-item-slug{font-size:.75rem;color:var(--muted);}
+  .section-sep{border:none;border-top:1px solid var(--border);margin:1.5rem 0;}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN SCREEN ══ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">⬡ Dashboard</div>
     <p class="login-sub">Mohamed Barakat — Site Control Panel</p>
-
     <div class="field">
       <label>GitHub Token</label>
       <input type="password" id="inp-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
     </div>
     <div class="field">
       <label>Dashboard Password</label>
-      <input type="password" id="inp-pass" placeholder="Your secret password" autocomplete="off">
+      <input type="password" id="inp-pass" placeholder="Your secret password" autocomplete="off"
+        onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-
     <button class="btn-primary" onclick="doLogin()">Login →</button>
     <div id="login-err"></div>
-
-    <p class="login-hint">
-      Your token is stored only in this browser session.<br>
-      It is never sent anywhere except GitHub's API.
-    </p>
+    <p class="login-hint">Token is stored only in this browser session.<br>Never sent anywhere except GitHub's API.</p>
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══ -->
+<!-- DASHBOARD -->
 <div id="dashboard">
-
-  <!-- NAV -->
   <nav class="dash-nav">
     <span class="dash-nav-logo">⬡ Dashboard</span>
-    <button class="nav-tab active" onclick="switchTab('hero')">Hero</button>
-    <button class="nav-tab" onclick="switchTab('bestwork')">Best Work</button>
-    <button class="nav-tab" onclick="switchTab('services')">Services</button>
-    <button class="nav-tab" onclick="switchTab('info')">Info</button>
-    <button class="nav-tab" onclick="switchTab('social')">Social</button>
-    <button class="nav-tab" onclick="switchTab('pages')">Pages</button>
-    <button class="dash-save-btn" onclick="openCommitModal()">💾 Save to Site</button>
-    <button class="logout-btn" onclick="doLogout()">Logout</button>
+    <button class="nav-tab active" data-tab="hero"     onclick="switchTab(this,'hero')">Hero</button>
+    <button class="nav-tab"        data-tab="bestwork" onclick="switchTab(this,'bestwork')">Best Work</button>
+    <button class="nav-tab"        data-tab="services" onclick="switchTab(this,'services')">Services</button>
+    <button class="nav-tab"        data-tab="info"     onclick="switchTab(this,'info')">Info</button>
+    <button class="nav-tab"        data-tab="social"   onclick="switchTab(this,'social')">Social</button>
+    <button class="nav-tab"        data-tab="pages"    onclick="switchTab(this,'pages')">Pages</button>
+    <button class="dash-save-btn"  onclick="openCommitModal()">💾 Save to Site</button>
+    <button class="logout-btn"     onclick="doLogout()">Logout</button>
   </nav>
 
   <div class="dash-body">
-    <!-- Progress -->
-    <div class="progress-bar" id="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
-    </div>
+    <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
-    <!-- ── HERO PANEL ── -->
+    <!-- HERO PANEL -->
     <div class="panel active" id="panel-hero">
-      <div class="panel-title">🖼️ Hero Section — Background Slides</div>
-
+      <div class="panel-title">🖼️ Hero Section</div>
       <div class="card">
         <div class="card-title">Name & Role</div>
         <div class="form-row">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" id="hero-fname" value="Mohamed">
-          </div>
-          <div class="form-group">
-            <label>Last Name (gold)</label>
-            <input type="text" id="hero-lname" value="Barakat">
-          </div>
+          <div class="form-group"><label>First Name</label><input type="text" id="hero-fname" value="Mohamed"></div>
+          <div class="form-group"><label>Last Name (gold color)</label><input type="text" id="hero-lname" value="Barakat"></div>
         </div>
-        <div class="form-group">
-          <label>Badge Text</label>
-          <input type="text" id="hero-badge" value="Available for Projects">
-        </div>
-        <div class="form-group">
-          <label>Role / Tagline</label>
-          <input type="text" id="hero-role" value="Creative Graphic Designer &amp; Social Media Specialist">
-        </div>
-        <div class="form-group">
-          <label>Sub-description</label>
-          <textarea id="hero-desc">Expertise in web design, e-commerce, branding, and SEO strategies — crafting visuals that connect and convert.</textarea>
-        </div>
+        <div class="form-group"><label>Badge Text</label><input type="text" id="hero-badge" value="Available for Projects"></div>
+        <div class="form-group"><label>Role Title</label><input type="text" id="hero-role" value="Creative Graphic Designer &amp; Social Media Specialist"></div>
+        <div class="form-group"><label>Sub Description</label><textarea id="hero-desc">Expertise in web design, e-commerce, branding, and SEO strategies — crafting visuals that connect and convert.</textarea></div>
       </div>
-
       <div class="card">
-        <div class="card-title">Background Slides (up to 4 images)</div>
+        <div class="card-title">Background Slides — paste image URLs (up to 4)</div>
         <div id="slides-container"></div>
-        <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">
-          💡 Paste a direct image URL (e.g. from your GitHub repo or any public CDN). Leave empty to use the gradient placeholder.
-        </p>
+        <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">💡 Use direct image URLs from your GitHub repo or any public CDN. Leave empty to show gradient placeholder.</p>
       </div>
     </div>
 
-    <!-- ── BEST WORK PANEL ── -->
+    <!-- BEST WORK PANEL -->
     <div class="panel" id="panel-bestwork">
       <div class="panel-title">⭐ Best Work Slider</div>
       <div class="card">
-        <div class="card-title">Projects (click + to add, 🗑 to remove)</div>
+        <div class="card-title">Projects</div>
         <div class="work-grid" id="work-grid"></div>
         <button class="add-btn" onclick="addWork()">＋ Add Project</button>
       </div>
     </div>
 
-    <!-- ── SERVICES PANEL ── -->
+    <!-- SERVICES PANEL -->
     <div class="panel" id="panel-services">
-      <div class="panel-title">🛠️ Services / What I Do</div>
+      <div class="panel-title">🛠️ Services</div>
       <div class="card">
         <div id="svc-list"></div>
         <button class="add-btn" onclick="addService()">＋ Add Service</button>
       </div>
     </div>
 
-    <!-- ── INFO PANEL ── -->
+    <!-- INFO PANEL -->
     <div class="panel" id="panel-info">
       <div class="panel-title">👤 Personal Info</div>
-
       <div class="card">
         <div class="card-title">About Section</div>
-        <div class="form-group">
-          <label>Section Headline</label>
-          <input type="text" id="about-headline" value="Crafting Visual Experiences">
-        </div>
-        <div class="form-group">
-          <label>Paragraph 1</label>
-          <textarea id="about-p1" rows="3">I'm a Creative Graphic Designer and Social Media Specialist based in Cairo, Egypt, with over 7 years of experience transforming brands through powerful visual storytelling.</textarea>
-        </div>
-        <div class="form-group">
-          <label>Paragraph 2</label>
-          <textarea id="about-p2" rows="3">Currently leading the Online &amp; E-Commerce Division at Eliraqi Company, I manage everything from product photography and social media design to SEO optimization and e-commerce operations.</textarea>
-        </div>
+        <div class="form-group"><label>Headline</label><input type="text" id="about-headline" value="Crafting Visual Experiences"></div>
+        <div class="form-group"><label>Paragraph 1</label><textarea id="about-p1" rows="3">I'm a Creative Graphic Designer and Social Media Specialist based in Cairo, Egypt, with over 7 years of experience transforming brands through powerful visual storytelling.</textarea></div>
+        <div class="form-group"><label>Paragraph 2</label><textarea id="about-p2" rows="3">Currently leading the Online &amp; E-Commerce Division at Eliraqi Company, I manage everything from product photography and social media design to SEO optimization and e-commerce operations.</textarea></div>
       </div>
-
       <div class="card">
         <div class="card-title">Stats</div>
         <div class="form-row">
-          <div class="form-group"><label>Years Experience</label><input type="text" id="stat-years" value="7+"></div>
-          <div class="form-group"><label>Projects Completed</label><input type="text" id="stat-projects" value="50+"></div>
-          <div class="form-group"><label>Brands Served</label><input type="text" id="stat-brands" value="6"></div>
-          <div class="form-group"><label>4th Stat</label><input type="text" id="stat-4" value="∞"></div>
+          <div class="form-group"><label>Years Experience</label><input type="text" id="stat-0" value="7+"></div>
+          <div class="form-group"><label>Projects Completed</label><input type="text" id="stat-1" value="50+"></div>
+          <div class="form-group"><label>Brands Served</label><input type="text" id="stat-2" value="6"></div>
+          <div class="form-group"><label>4th Stat</label><input type="text" id="stat-3" value="∞"></div>
         </div>
       </div>
-
       <div class="card">
-        <div class="card-title">CV File Path</div>
-        <div class="form-group">
-          <label>Download URL / Path</label>
-          <input type="text" id="cv-path" value="/Mohamed-Barakat-CV.pdf" placeholder="/Mohamed-Barakat-CV.pdf">
-        </div>
+        <div class="card-title">CV File</div>
+        <div class="form-group"><label>CV Download Path</label><input type="text" id="cv-path" value="/Mohamed-Barakat-CV.pdf"></div>
       </div>
     </div>
 
-    <!-- ── SOCIAL PANEL ── -->
+    <!-- SOCIAL PANEL -->
     <div class="panel" id="panel-social">
       <div class="panel-title">📱 Social Media Links</div>
       <div class="card">
-        <div class="card-title">Accounts</div>
+        <div class="card-title">Social Accounts</div>
         <div class="social-grid">
-          <div class="social-field"><span class="social-ico">f</span><input type="url" id="soc-facebook" placeholder="https://facebook.com/..." value="https://www.facebook.com/"></div>
-          <div class="social-field"><span class="social-ico">📷</span><input type="url" id="soc-instagram" placeholder="https://instagram.com/..." value="https://www.instagram.com/designedby.bd"></div>
-          <div class="social-field"><span class="social-ico">♪</span><input type="url" id="soc-tiktok" placeholder="https://tiktok.com/@..." value="https://www.tiktok.com/"></div>
-          <div class="social-field"><span class="social-ico" style="font-weight:900;font-size:.85rem;">BE</span><input type="url" id="soc-behance" placeholder="https://behance.net/..." value="https://www.behance.net/mbarakat960b56"></div>
-          <div class="social-field"><span class="social-ico">in</span><input type="url" id="soc-linkedin" placeholder="https://linkedin.com/in/..." value="https://www.linkedin.com/in/mohammedbarakat1/"></div>
+          <div class="social-field"><span class="social-ico">f</span><input type="url" id="soc-facebook"  value="https://www.facebook.com/" placeholder="Facebook URL"></div>
+          <div class="social-field"><span class="social-ico">📷</span><input type="url" id="soc-instagram" value="https://www.instagram.com/designedby.bd" placeholder="Instagram URL"></div>
+          <div class="social-field"><span class="social-ico">♪</span><input type="url" id="soc-tiktok"    value="https://www.tiktok.com/" placeholder="TikTok URL"></div>
+          <div class="social-field"><span class="social-ico" style="font-weight:900;font-size:.8rem;">BE</span><input type="url" id="soc-behance"   value="https://www.behance.net/mbarakat960b56" placeholder="Behance URL"></div>
+          <div class="social-field"><span class="social-ico">in</span><input type="url" id="soc-linkedin"  value="https://www.linkedin.com/in/mohammedbarakat1/" placeholder="LinkedIn URL"></div>
         </div>
         <hr class="section-sep">
-        <div class="card-title">Contact Links (Contact Section)</div>
+        <div class="card-title">Contact Section Links</div>
         <div class="form-group"><label>Email</label><input type="email" id="contact-email" value="mo.barakat.design@gmail.com"></div>
         <div class="form-group"><label>Phone / WhatsApp</label><input type="text" id="contact-phone" value="+20 123 456 7890"></div>
         <div class="form-group"><label>Location</label><input type="text" id="contact-location" value="Cairo, Egypt"></div>
-        <div class="form-group"><label>Behance Portfolio URL</label><input type="url" id="contact-behance" value="https://www.behance.net/mbarakat960b56"></div>
       </div>
     </div>
 
-    <!-- ── PAGES PANEL ── -->
+    <!-- PAGES PANEL -->
     <div class="panel" id="panel-pages">
       <div class="panel-title">📄 Pages</div>
       <div class="card">
         <div class="card-title">Existing Pages</div>
-        <div class="page-list" id="page-list">
+        <div id="page-list">
           <div class="page-item">
-            <div class="page-item-info">
-              <div class="page-item-name">Home</div>
-              <div class="page-item-slug">index.html</div>
-            </div>
-            <div class="page-item-actions">
-              <span style="font-size:.75rem;color:var(--green);">● Live</span>
-            </div>
+            <div><div class="page-item-name">Home</div><div class="page-item-slug">index.html</div></div>
+            <span style="font-size:.75rem;color:var(--green);">● Live</span>
           </div>
         </div>
-
         <hr class="section-sep">
-        <div class="card-title">Add New Page</div>
-        <div class="form-group"><label>Page Title</label><input type="text" id="new-page-title" placeholder="About Me"></div>
-        <div class="form-group"><label>Slug (filename, no spaces)</label><input type="text" id="new-page-slug" placeholder="about" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')"></div>
-        <div class="form-group">
-          <label>Page Content (HTML body — you can paste full sections)</label>
+        <div class="card-title">Create New Page</div>
+        <div class="form-group"><label>Page Title</label><input type="text" id="new-page-title" placeholder="e.g. About Me"></div>
+        <div class="form-group"><label>Slug (filename — no spaces, no special chars)</label>
+          <input type="text" id="new-page-slug" placeholder="about"
+            oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,'')">
+        </div>
+        <div class="form-group"><label>Page Body HTML</label>
           <textarea id="new-page-content" rows="10" placeholder="&lt;section&gt;&#10;  &lt;h1&gt;About Me&lt;/h1&gt;&#10;  &lt;p&gt;Your content here...&lt;/p&gt;&#10;&lt;/section&gt;"></textarea>
         </div>
-        <button class="add-btn" onclick="createNewPage()">＋ Create Page</button>
+        <button class="add-btn" onclick="createNewPage()">＋ Create Page on GitHub</button>
       </div>
     </div>
 
   </div><!-- /dash-body -->
 </div><!-- /dashboard -->
 
-<!-- ══ TOAST ══ -->
-<div id="toast"><span class="toast-icon"></span><span id="toast-msg"></span></div>
+<!-- TOAST -->
+<div id="toast"><span id="toast-icon"></span>&nbsp;<span id="toast-msg"></span></div>
 
-<!-- ══ COMMIT MODAL ══ -->
+<!-- COMMIT MODAL -->
 <div id="commit-modal">
   <div class="commit-box">
-    <h3>💾 Save Changes to Site</h3>
-    <p>
-      This will push your changes directly to <strong>GitHub</strong>.<br>
-      Your site will update automatically within ~1 minute.
-    </p>
-    <input type="text" id="commit-msg" placeholder="Commit message (e.g. Update hero images)" value="Update site via dashboard">
+    <h3>💾 Push Changes to GitHub</h3>
+    <p>This will update <strong>index.html</strong> in your repo.<br>Your live site will refresh within ~60 seconds.</p>
+    <input type="text" id="commit-msg" value="Update site via dashboard" placeholder="Describe what you changed">
     <div class="commit-actions">
       <button class="btn-ghost2" onclick="closeCommitModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto;padding:.55rem 1.4rem;" onclick="pushToGitHub()">Push to GitHub</button>
+      <button class="btn-primary" style="width:auto;padding:.55rem 1.4rem;" onclick="pushToGitHub()">🚀 Push</button>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
+//  CONFIG — change password below
+// ─────────────────────────────────────────────
 const REPO_OWNER = 'designedbybd';
 const REPO_NAME  = 'designedbybd.online';
 const FILE_PATH  = 'index.html';
-const DASH_PASS  = 'BD2024@dashboard'; // ← غيّر الباسورد ده لأي حاجة تختارها
+const DASH_PASS  = 'BD2024@dashboard'; // ← CHANGE THIS
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  STATE
-// ══════════════════════════════════════════════
-let GH_TOKEN = '';
+// ─────────────────────────────────────────────
+let GH_TOKEN    = '';
 let currentHTML = '';
-let fileSHA = '';
+let fileSHA     = '';
 
-const slides = [
-  { url: '', alt: 'Hero Background 1' },
-  { url: '', alt: 'Hero Background 2' },
-  { url: '', alt: 'Hero Background 3' },
-  { url: '', alt: 'Hero Background 4' },
+let slides = [
+  {url:'', alt:'Hero Background 1'},
+  {url:'', alt:'Hero Background 2'},
+  {url:'', alt:'Hero Background 3'},
+  {url:'', alt:'Hero Background 4'},
 ];
 
 let works = [
-  { title: 'Eliraqi Brand', img: '', link: 'https://www.behance.net/mbarakat960b56' },
-  { title: 'Mariam Lenses', img: '', link: 'https://www.behance.net/mbarakat960b56' },
+  {title:'Eliraqi Brand',   img:'', link:'https://www.behance.net/mbarakat960b56'},
+  {title:'Mariam Lenses',   img:'', link:'https://www.behance.net/mbarakat960b56'},
 ];
 
 let services = [
-  { icon:'🎨', title:'Graphic Design', desc:'Brand identity, logo design, social media visuals, print materials, and creative campaigns that leave a lasting impression.' },
-  { icon:'📱', title:'Social Media',   desc:'Strategic content creation, visual storytelling, and platform management to grow your brand\'s online presence.' },
-  { icon:'🛒', title:'E-Commerce',     desc:'Product listings, store optimization, SEO strategies, and full e-commerce operations to boost your online sales.' },
-  { icon:'🌐', title:'Web Design',     desc:'Clean, modern, conversion-focused web designs tailored for businesses and e-commerce platforms.' },
-  { icon:'🎬', title:'Video Production',desc:'Motion graphics, promotional videos, reels, and animated content that captures attention and drives engagement.' },
-  { icon:'🔍', title:'SEO & Data Entry',desc:'On-page SEO optimization, keyword strategies, and accurate data management to improve visibility and performance.' },
+  {icon:'🎨', title:'Graphic Design',    desc:'Brand identity, logo design, social media visuals, print materials, and creative campaigns that leave a lasting impression.'},
+  {icon:'📱', title:'Social Media',      desc:"Strategic content creation, visual storytelling, and platform management to grow your brand's online presence."},
+  {icon:'🛒', title:'E-Commerce',        desc:'Product listings, store optimization, SEO strategies, and full e-commerce operations to boost your online sales.'},
+  {icon:'🌐', title:'Web Design',        desc:'Clean, modern, conversion-focused web designs tailored for businesses and e-commerce platforms.'},
+  {icon:'🎬', title:'Video Production',  desc:'Motion graphics, promotional videos, reels, and animated content that captures attention and drives engagement.'},
+  {icon:'🔍', title:'SEO & Data Entry',  desc:'On-page SEO optimization, keyword strategies, and accurate data management to improve visibility and performance.'},
 ];
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  LOGIN
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 async function doLogin() {
   const token = document.getElementById('inp-token').value.trim();
-  const pass   = document.getElementById('inp-pass').value.trim();
-  const errEl  = document.getElementById('login-err');
-  errEl.textContent = '';
+  const pass  = document.getElementById('inp-pass').value;
+  const err   = document.getElementById('login-err');
+  err.textContent = '';
 
-  if (!token) { errEl.textContent = 'Please enter your GitHub token.'; return; }
-  if (pass !== DASH_PASS) { errEl.textContent = 'Incorrect dashboard password.'; return; }
+  if (!token) { err.textContent = 'Please enter your GitHub token.'; return; }
+  if (pass !== DASH_PASS) { err.textContent = 'Incorrect password.'; return; }
 
-  errEl.textContent = 'Verifying token…';
+  err.textContent = 'Verifying…';
   try {
-    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
-      headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
-    });
-    if (!res.ok) { errEl.textContent = 'GitHub token invalid or repo not found. (' + res.status + ')'; return; }
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      { headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' } }
+    );
+    if (!res.ok) { err.textContent = `GitHub error ${res.status} — check token & repo name.`; return; }
     const data = await res.json();
-    GH_TOKEN = token;
-    fileSHA = data.sha;
-    currentHTML = atob(data.content.replace(/\n/g,''));
+    GH_TOKEN    = token;
+    fileSHA     = data.sha;
+    currentHTML = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     loadAllData();
-    toast('✅', 'Logged in successfully!', 'success');
+    toast('✅','Logged in!','success');
   } catch(e) {
-    errEl.textContent = 'Network error — check your connection.';
+    err.textContent = 'Network error. Check your connection.';
   }
 }
 
@@ -564,82 +418,75 @@ function doLogout() {
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('inp-token').value = '';
-  document.getElementById('inp-pass').value = '';
+  document.getElementById('inp-pass').value  = '';
+  document.getElementById('login-err').textContent = '';
 }
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  TABS
-// ══════════════════════════════════════════════
-function switchTab(tab) {
+// ─────────────────────────────────────────────
+function switchTab(btn, tab) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  RENDER SLIDES
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 function renderSlides() {
   const c = document.getElementById('slides-container');
   c.innerHTML = '';
   slides.forEach((s, i) => {
     const div = document.createElement('div');
     div.className = 'slide-item';
+    const previewHtml = s.url
+      ? `<img class="slide-img-preview" src="${xss(s.url)}" onerror="this.style.opacity='.3'">`
+      : `<div class="slide-img-placeholder">Gradient</div>`;
     div.innerHTML = `
       <div class="slide-num">${i+1}</div>
       <div class="slide-fields">
-        <input type="text" placeholder="Image URL (leave empty for gradient)" value="${escHtml(s.url)}"
-          oninput="slides[${i}].url=this.value;updatePreview(${i})">
-        <input type="text" placeholder="Alt text" value="${escHtml(s.alt)}"
+        <input type="text" placeholder="Image URL (leave empty for gradient)" value="${xss(s.url)}"
+          oninput="slides[${i}].url=this.value;renderSlides()">
+        <input type="text" placeholder="Alt text" value="${xss(s.alt)}"
           oninput="slides[${i}].alt=this.value">
       </div>
-      <div>
-        ${s.url
-          ? `<img class="slide-img-preview" id="prev-${i}" src="${escHtml(s.url)}" onerror="this.style.display='none'">`
-          : `<div class="slide-img-placeholder" id="prev-${i}">Gradient</div>`}
-      </div>`;
+      <div>${previewHtml}</div>`;
     c.appendChild(div);
   });
 }
 
-function updatePreview(i) {
-  const el = document.getElementById('prev-' + i);
-  if (!el) return;
-  if (slides[i].url) {
-    el.outerHTML = `<img class="slide-img-preview" id="prev-${i}" src="${escHtml(slides[i].url)}" onerror="this.style.display='none'">`;
-  } else {
-    el.outerHTML = `<div class="slide-img-placeholder" id="prev-${i}">Gradient</div>`;
-  }
-}
-
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  RENDER BEST WORK
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 function renderWorks() {
   const g = document.getElementById('work-grid');
   g.innerHTML = '';
   works.forEach((w, i) => {
     const d = document.createElement('div');
     d.className = 'work-card';
+    const imgHtml = w.img
+      ? `<img class="work-card-img" src="${xss(w.img)}" onerror="this.style.opacity='.3'">`
+      : `<div class="work-card-placeholder">No image yet</div>`;
     d.innerHTML = `
-      <button class="del-btn" onclick="removeWork(${i})">🗑</button>
-      ${w.img ? `<img class="work-card-img" src="${escHtml(w.img)}" onerror="this.style.display='none'">` : `<div class="work-card-img" style="display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--muted);">No image</div>`}
+      <button class="del-btn" onclick="removeWork(${i})">✕</button>
+      ${imgHtml}
       <label>Project Title</label>
-      <input type="text" value="${escHtml(w.title)}" oninput="works[${i}].title=this.value">
+      <input type="text" value="${xss(w.title)}" oninput="works[${i}].title=this.value">
       <label>Image URL</label>
-      <input type="text" value="${escHtml(w.img)}" placeholder="https://..." oninput="works[${i}].img=this.value;renderWorks()">
+      <input type="text" value="${xss(w.img)}" placeholder="https://…" oninput="works[${i}].img=this.value;renderWorks()">
       <label>Behance Link</label>
-      <input type="text" value="${escHtml(w.link)}" placeholder="https://behance.net/..." oninput="works[${i}].link=this.value">`;
+      <input type="text" value="${xss(w.link)}" placeholder="https://behance.net/…" oninput="works[${i}].link=this.value">`;
     g.appendChild(d);
   });
 }
-function addWork() { works.push({title:'New Project',img:'',link:'https://www.behance.net/mbarakat960b56'}); renderWorks(); }
-function removeWork(i) { works.splice(i,1); renderWorks(); }
+function addWork()      { works.push({title:'New Project',img:'',link:'https://www.behance.net/mbarakat960b56'}); renderWorks(); }
+function removeWork(i)  { works.splice(i,1); renderWorks(); }
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  RENDER SERVICES
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 function renderServices() {
   const c = document.getElementById('svc-list');
   c.innerHTML = '';
@@ -647,89 +494,176 @@ function renderServices() {
     const d = document.createElement('div');
     d.className = 'svc-item';
     d.innerHTML = `
-      <button class="del-btn" style="position:static;width:26px;height:26px;min-width:26px;" onclick="removeService(${i})">🗑</button>
+      <button class="del-btn svc-del" onclick="removeService(${i})">✕</button>
       <div style="flex:1">
-        <div style="display:flex;gap:.5rem;margin-bottom:.4rem;">
-          <input type="text" class="svc-icon-input" value="${escHtml(s.icon)}" oninput="services[${i}].icon=this.value" placeholder="🎨" style="width:52px">
-          <input type="text" value="${escHtml(s.title)}" oninput="services[${i}].title=this.value" placeholder="Service Title" style="flex:1">
+        <div style="display:flex;gap:.5rem;margin-bottom:.5rem;">
+          <input class="svc-icon-input" type="text" value="${xss(s.icon)}"
+            oninput="services[${i}].icon=this.value" placeholder="🎨">
+          <input type="text" value="${xss(s.title)}"
+            oninput="services[${i}].title=this.value" placeholder="Service Title" style="flex:1">
         </div>
-        <textarea oninput="services[${i}].desc=this.value" placeholder="Short description...">${escHtml(s.desc)}</textarea>
+        <textarea oninput="services[${i}].desc=this.value"
+          placeholder="Short description…">${xss(s.desc)}</textarea>
       </div>`;
     c.appendChild(d);
   });
 }
-function addService() { services.push({icon:'✨',title:'New Service',desc:'Describe your service here.'}); renderServices(); }
-function removeService(i) { services.splice(i,1); renderServices(); }
+function addService()      { services.push({icon:'✨',title:'New Service',desc:'Describe this service.'}); renderServices(); }
+function removeService(i)  { services.splice(i,1); renderServices(); }
 
-// ══════════════════════════════════════════════
-//  LOAD DATA FROM LIVE HTML
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
+//  LOAD DATA FROM LIVE index.html
+// ─────────────────────────────────────────────
 function loadAllData() {
-  // parse slides from currentHTML
-  const slideImgRx = /<!-- Slide \d[^>]*-->\s*<div class="hero-bg-slide">\s*(?:<!--[^>]*src="([^"]*)"[^>]*>)?/g;
-  let sm; let si=0;
-  // simpler: just look for the img src values in hero-bg-slide divs
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(currentHTML, 'text/html');
-  doc.querySelectorAll('.hero-bg-slide img').forEach((img, i) => {
-    if (i < 4) { slides[i].url = img.getAttribute('src') || ''; slides[i].alt = img.getAttribute('alt') || `Hero Background ${i+1}`; }
-  });
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(currentHTML, 'text/html');
 
-  // load social links
-  ['facebook','instagram','tiktok','behance','linkedin'].forEach(n => {
-    const el = document.getElementById('soc-' + n);
-    if (!el) return;
-    // find link in HTML
-    const rx = new RegExp(`href="([^"]*${n}[^"]*)"`, 'i');
-    const m = currentHTML.match(rx);
-    if (m) el.value = m[1];
-  });
+    // Slides
+    doc.querySelectorAll('.hero-bg-slide img').forEach((img, i) => {
+      if (i < 4) {
+        slides[i].url = img.getAttribute('src') || '';
+        slides[i].alt = img.getAttribute('alt') || `Hero Background ${i+1}`;
+      }
+    });
+
+    // Hero text
+    const nameEl = doc.querySelector('.hero-name');
+    if (nameEl) {
+      const goldEl = nameEl.querySelector('.gold');
+      const rawText = nameEl.childNodes[0]?.textContent?.trim() || '';
+      if (rawText) document.getElementById('hero-fname').value = rawText;
+      if (goldEl)  document.getElementById('hero-lname').value = goldEl.textContent.trim();
+    }
+    const badgeEl = doc.querySelector('.hero-badge');
+    if (badgeEl) document.getElementById('hero-badge').value = badgeEl.textContent.trim();
+
+    const roleEl = doc.querySelector('.hero-role strong');
+    if (roleEl) document.getElementById('hero-role').value = roleEl.textContent.trim();
+    const roleP = doc.querySelector('.hero-role');
+    if (roleP) {
+      const descNode = [...roleP.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+      if (descNode) document.getElementById('hero-desc').value = descNode.textContent.trim();
+    }
+
+    // Services
+    const svcCards = doc.querySelectorAll('.service-card');
+    if (svcCards.length) {
+      services = [...svcCards].map(c => ({
+        icon:  c.querySelector('.svc-icon')?.textContent?.trim()  || '✨',
+        title: c.querySelector('.svc-title')?.textContent?.trim() || '',
+        desc:  c.querySelector('.svc-desc')?.textContent?.trim()  || '',
+      }));
+    }
+
+    // Stats
+    const statNums = doc.querySelectorAll('.stat-num');
+    statNums.forEach((el, i) => {
+      const inp = document.getElementById('stat-' + i);
+      if (inp) inp.value = el.textContent.trim();
+    });
+
+    // About headline
+    const aboutSection = doc.getElementById('about');
+    if (aboutSection) {
+      const h2 = aboutSection.querySelector('.section-title');
+      if (h2) document.getElementById('about-headline').value = h2.textContent.trim();
+      const paras = aboutSection.querySelectorAll('.about-text p');
+      if (paras[0]) document.getElementById('about-p1').value = paras[0].textContent.trim();
+      if (paras[1]) document.getElementById('about-p2').value = paras[1].textContent.trim();
+    }
+
+    // Social links — find by title attribute
+    const socKeys = {
+      facebook:  'soc-facebook',
+      instagram: 'soc-instagram',
+      tiktok:    'soc-tiktok',
+      behance:   'soc-behance',
+      linkedin:  'soc-linkedin',
+    };
+    doc.querySelectorAll('a[title]').forEach(a => {
+      const key = a.getAttribute('title')?.toLowerCase();
+      if (socKeys[key]) {
+        const inp = document.getElementById(socKeys[key]);
+        if (inp && a.href) inp.value = a.href;
+      }
+    });
+
+    // Email
+    const mailLink = doc.querySelector('a[href^="mailto:"]');
+    if (mailLink) document.getElementById('contact-email').value = mailLink.href.replace('mailto:','');
+
+    // CV path
+    const cvLink = doc.querySelector('a[download]');
+    if (cvLink) document.getElementById('cv-path').value = cvLink.getAttribute('href');
+
+    // Best work — load from injected data comment if present
+    const wdMatch = currentHTML.match(/<!--BESTWORK_DATA:([\s\S]*?)-->/);
+    if (wdMatch) {
+      try { works = JSON.parse(wdMatch[1]); } catch(e){}
+    }
+
+  } catch(e) {
+    console.warn('loadAllData error:', e);
+  }
 
   renderSlides();
   renderWorks();
   renderServices();
 }
 
-// ══════════════════════════════════════════════
-//  BUILD MODIFIED HTML
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
+//  BUILD NEW index.html
+// ─────────────────────────────────────────────
 function buildNewHTML() {
   let html = currentHTML;
 
-  // 1. HERO NAME
-  const fname = v('hero-fname');
-  const lname = v('hero-lname');
-  html = html.replace(/<h1 class="hero-name">[^<]*<br><span class="gold">[^<]*<\/span><\/h1>/,
-    `<h1 class="hero-name">${esc(fname)}<br><span class="gold">${esc(lname)}</span></h1>`);
+  // 1. Hero name
+  html = html.replace(
+    /<h1 class="hero-name">[\s\S]*?<\/h1>/,
+    `<h1 class="hero-name">${esc(v('hero-fname'))}<br><span class="gold">${esc(v('hero-lname'))}</span></h1>`
+  );
 
-  // 2. HERO BADGE
-  const badge = v('hero-badge');
-  html = html.replace(/<div class="hero-badge">[^<]*<\/div>/,
-    `<div class="hero-badge">${esc(badge)}</div>`);
+  // 2. Hero badge
+  html = html.replace(
+    /<div class="hero-badge">[\s\S]*?<\/div>/,
+    `<div class="hero-badge">${esc(v('hero-badge'))}</div>`
+  );
 
-  // 3. HERO ROLE + DESC
-  const role = v('hero-role');
-  const desc = v('hero-desc');
-  html = html.replace(/<p class="hero-role">[\s\S]*?<\/p>/,
-    `<p class="hero-role">\n      <strong>${esc(role)}</strong><br>\n      ${esc(desc)}\n    </p>`);
+  // 3. Hero role paragraph
+  html = html.replace(
+    /<p class="hero-role">[\s\S]*?<\/p>/,
+    `<p class="hero-role">\n      <strong>${esc(v('hero-role'))}</strong><br>\n      ${esc(v('hero-desc'))}\n    </p>`
+  );
 
-  // 4. HERO BACKGROUND SLIDES
-  let slidesHtml = `<!-- Background Slider -->\n  <div class="hero-bg-slider" id="heroBgSlider">\n    <div class="hero-bg-track" id="heroBgTrack">\n`;
+  // 4. Background slides block
+  let slidesBlock = `<!-- Background Slider -->
+  <div class="hero-bg-slider" id="heroBgSlider">
+    <div class="hero-bg-track" id="heroBgTrack">
+`;
   slides.forEach((s, i) => {
-    slidesHtml += `      <!-- Slide ${i+1} -->\n      <div class="hero-bg-slide">\n`;
+    slidesBlock += `      <!-- Slide ${i+1} -->\n      <div class="hero-bg-slide">\n`;
     if (s.url) {
-      slidesHtml += `        <img src="${escHtml(s.url)}" alt="${escHtml(s.alt)}" onload="this.classList.add('loaded')">\n`;
+      slidesBlock += `        <img src="${xss(s.url)}" alt="${xss(s.alt)}" onload="this.classList.add('loaded')">\n`;
     } else {
-      slidesHtml += `        <!-- <img src="YOUR_IMAGE_${i+1}.jpg" alt="${escHtml(s.alt)}" onload="this.classList.add('loaded')"> -->\n`;
+      slidesBlock += `        <!-- <img src="YOUR_IMAGE_${i+1}.jpg" alt="${xss(s.alt)}" onload="this.classList.add('loaded')"> -->\n`;
     }
-    slidesHtml += `      </div>\n`;
+    slidesBlock += `      </div>\n`;
   });
-  slidesHtml += `    </div>\n    <div class="hero-bg-overlay"></div>\n    <!-- Progress bar -->\n    <div class="hero-slider-progress" id="heroProgress"></div>\n    <!-- Dots -->\n    <div class="hero-slider-dots" id="heroDots"></div>\n  </div>`;
+  slidesBlock += `    </div>
+    <div class="hero-bg-overlay"></div>
+    <!-- Progress bar -->
+    <div class="hero-slider-progress" id="heroProgress"></div>
+    <!-- Dots -->
+    <div class="hero-slider-dots" id="heroDots"></div>
+  </div>`;
 
-  html = html.replace(/<!-- Background Slider -->[\s\S]*?<\/div>\n  <!-- decorative orbs -->|<!-- Background Slider -->[\s\S]*?id="heroDots"><\/div>\n  <\/div>/,
-    slidesHtml);
+  html = html.replace(
+    /<!-- Background Slider -->[\s\S]*?id="heroDots"><\/div>\n  <\/div>/,
+    slidesBlock
+  );
 
-  // 5. SOCIAL LINKS — hero + footer
+  // 5. Social links — replace each network's href globally
   const socMap = {
     facebook:  v('soc-facebook'),
     instagram: v('soc-instagram'),
@@ -737,201 +671,217 @@ function buildNewHTML() {
     behance:   v('soc-behance'),
     linkedin:  v('soc-linkedin'),
   };
-  // Replace all occurrences of each social link
-  Object.entries(socMap).forEach(([net, url]) => {
-    // hero socials
-    const rx = new RegExp(`(title="${net.charAt(0).toUpperCase()+net.slice(1)}"[^>]*href="|href="[^"]*${net}[^"]*"(?=.*title="${net.charAt(0).toUpperCase()+net.slice(1)}"))`, 'gi');
-    html = replaceAllSocialHref(html, net, url);
+  const domainMap = {
+    facebook:  'facebook.com',
+    instagram: 'instagram.com',
+    tiktok:    'tiktok.com',
+    behance:   'behance.net',
+    linkedin:  'linkedin.com',
+  };
+  Object.entries(socMap).forEach(([net, newUrl]) => {
+    if (!newUrl) return;
+    const domain = domainMap[net].replace('.', '\\.');
+    const rx = new RegExp(`href="https?://(?:www\\.)?${domain}[^"]*"`, 'g');
+    html = html.replace(rx, `href="${newUrl}"`);
   });
 
-  // 6. SERVICES
-  const svcGrid = services.map(s =>
-    `    <div class="service-card reveal">\n      <div class="svc-icon">${s.icon}</div>\n      <h3 class="svc-title">${esc(s.title)}</h3>\n      <p class="svc-desc">${esc(s.desc)}</p>\n    </div>`
-  ).join('\n');
-  html = html.replace(/<div class="services-grid">[\s\S]*?<\/div>\n<\/section>\n\n<!-- PORTFOLIO/,
-    `<div class="services-grid">\n${svcGrid}\n  </div>\n</section>\n\n<!-- PORTFOLIO`);
+  // 6. Email
+  const email = v('contact-email');
+  if (email) html = html.replace(/href="mailto:[^"]*"/g, `href="mailto:${email}"`);
 
-  // 7. BEST WORK slider HTML (simple data comment injection)
-  // We store the work data as a JSON comment then re-read it on load
-  const workData = JSON.stringify(works);
-  if (html.includes('<!-- BESTWORK_DATA:')) {
-    html = html.replace(/<!-- BESTWORK_DATA:.*?-->/s, `<!-- BESTWORK_DATA:${workData}-->`);
-  } else {
-    html = html.replace('<!-- HERO -->', `<!-- BESTWORK_DATA:${workData}-->\n<!-- HERO -->`);
+  // 7. CV path
+  const cvPath = v('cv-path');
+  if (cvPath) {
+    html = html.replace(/href="[^"]*\.pdf"/g, `href="${cvPath}"`);
+    html = html.replace(/download="[^"]*\.pdf"/g, `download="${cvPath.split('/').pop()}"`);
   }
 
-  // 8. CV path
-  const cvPath = v('cv-path');
-  html = html.replace(/href="[^"]*-CV\.pdf"/g, `href="${cvPath}"`);
-  html = html.replace(/download="[^"]*-CV\.pdf"/g, `download="${cvPath.split('/').pop()}"`);
+  // 8. Services
+  const svcHTML = services.map(s =>
+    `    <div class="service-card reveal">\n      <div class="svc-icon">${s.icon}</div>\n      <h3 class="svc-title">${esc(s.title)}</h3>\n      <p class="svc-desc">${esc(s.desc)}</p>\n    </div>`
+  ).join('\n');
+  html = html.replace(
+    /<div class="services-grid">[\s\S]*?<\/div>(\s*<\/section>\s*<!-- PORTFOLIO)/,
+    `<div class="services-grid">\n${svcHTML}\n  </div>$1`
+  );
 
-  // 9. STATS
-  const stats = ['stat-years','stat-projects','stat-brands','stat-4'];
-  const statEls = html.match(/<div class="stat-num">([^<]*)<\/div>/g) || [];
-  stats.forEach((sid, i) => {
-    if (statEls[i]) {
-      const newStat = `<div class="stat-num">${esc(v(sid))}</div>`;
-      html = html.replace(statEls[i], newStat);
-    }
+  // 9. Stats — replace each stat-num individually using index marker
+  const statVals = [v('stat-0'), v('stat-1'), v('stat-2'), v('stat-3')];
+  let statIdx = 0;
+  html = html.replace(/<div class="stat-num">[^<]*<\/div>/g, (match) => {
+    const replacement = statIdx < statVals.length
+      ? `<div class="stat-num">${esc(statVals[statIdx])}</div>`
+      : match;
+    statIdx++;
+    return replacement;
   });
 
-  // 10. ABOUT
+  // 10. About headline
   const aboutH = v('about-headline');
-  html = html.replace(/<h2 class="section-title">Crafting Visual[^<]*<\/h2>/,
-    `<h2 class="section-title">${esc(aboutH)}</h2>`);
+  if (aboutH) {
+    // Replace the section-title inside the about section only
+    html = html.replace(
+      /(<section id="about"[\s\S]*?<h2 class="section-title">)[^<]*(<\/h2>)/,
+      `$1${esc(aboutH)}$2`
+    );
+  }
 
-  // Contact links
-  const email = v('contact-email');
-  const phone = v('contact-phone');
-  const loc   = v('contact-location');
-  if (email) html = html.replace(/(href="mailto:)[^"]*(")/, `$1${email}$2`);
+  // 11. About paragraphs
+  const p1 = v('about-p1'), p2 = v('about-p2');
+  if (p1 || p2) {
+    const aboutParas = html.match(/<div class="about-text">([\s\S]*?)<\/div>/);
+    if (aboutParas) {
+      let newAbout = `<div class="about-text">`;
+      if (p1) newAbout += `\n        <p>${esc(p1)}</p>`;
+      if (p2) newAbout += `\n        <p>${esc(p2)}</p>`;
+      newAbout += `\n      </div>`;
+      html = html.replace(/<div class="about-text">[\s\S]*?<\/div>/, newAbout);
+    }
+  }
+
+  // 12. Best work data (stored as comment for round-trip)
+  const wdJson = JSON.stringify(works);
+  if (html.includes('<!--BESTWORK_DATA:')) {
+    html = html.replace(/<!--BESTWORK_DATA:[\s\S]*?-->/, `<!--BESTWORK_DATA:${wdJson}-->`);
+  } else {
+    html = html.replace('<!-- HERO -->', `<!--BESTWORK_DATA:${wdJson}-->\n<!-- HERO -->`);
+  }
 
   return html;
 }
 
-function replaceAllSocialHref(html, network, newUrl) {
-  // Match all links with the social icon title and replace href
-  const patterns = [
-    /(?<=title="Facebook"[^>]*href="|href=")[^"]*facebook\.com[^"]*/gi,
-    /(?<=title="Instagram"[^>]*href="|href=")[^"]*instagram\.com[^"]*/gi,
-    /(?<=title="TikTok"[^>]*href="|href=")[^"]*tiktok\.com[^"]*/gi,
-    /(?<=title="Behance"[^>]*href="|href=")[^"]*behance\.net[^"]*/gi,
-    /(?<=title="LinkedIn"[^>]*href="|href=")[^"]*linkedin\.com[^"]*/gi,
-  ];
-  const nets = ['facebook','instagram','tiktok','behance','linkedin'];
-  const idx = nets.indexOf(network);
-  if (idx < 0) return html;
-  // Simple replace: find all href="...network..." and replace
-  const rx = new RegExp(`href="(https?://(?:www\\.)?${network}\\.(?:com|net)[^"]*)"`, 'gi');
-  return html.replace(rx, `href="${newUrl}"`);
-}
-
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  COMMIT MODAL
-// ══════════════════════════════════════════════
-function openCommitModal() { document.getElementById('commit-modal').classList.add('open'); }
+// ─────────────────────────────────────────────
+function openCommitModal()  { document.getElementById('commit-modal').classList.add('open'); }
 function closeCommitModal() { document.getElementById('commit-modal').classList.remove('open'); }
 
 async function pushToGitHub() {
   const msg = document.getElementById('commit-msg').value.trim() || 'Update site via dashboard';
   closeCommitModal();
-
   showProgress(10);
+
   let newHTML;
-  try {
-    newHTML = buildNewHTML();
-  } catch(e) {
-    toast('❌', 'Error building HTML: ' + e.message, 'error'); hideProgress(); return;
-  }
+  try { newHTML = buildNewHTML(); }
+  catch(e) { toast('❌','Build error: '+e.message,'error'); hideProgress(); return; }
 
-  showProgress(30);
-  const encoded = btoa(unescape(encodeURIComponent(newHTML)));
+  showProgress(35);
+  let encoded;
+  try { encoded = btoa(unescape(encodeURIComponent(newHTML))); }
+  catch(e) { toast('❌','Encoding error: '+e.message,'error'); hideProgress(); return; }
 
+  showProgress(60);
   try {
-    showProgress(60);
-    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${GH_TOKEN}`,
-        'Content-Type': 'application/json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-      body: JSON.stringify({ message: msg, content: encoded, sha: fileSHA })
-    });
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${GH_TOKEN}`,
+          'Content-Type': 'application/json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+        body: JSON.stringify({ message: msg, content: encoded, sha: fileSHA }),
+      }
+    );
     showProgress(90);
     if (!res.ok) {
-      const err = await res.json();
-      toast('❌', 'Push failed: ' + (err.message || res.status), 'error');
+      const errData = await res.json().catch(()=>({}));
+      toast('❌','Push failed: '+(errData.message||res.status),'error');
       hideProgress(); return;
     }
     const data = await res.json();
-    fileSHA = data.content.sha;
+    fileSHA     = data.content.sha;
     currentHTML = newHTML;
     showProgress(100);
-    setTimeout(hideProgress, 600);
-    toast('🚀', 'Pushed! Site updates in ~1 min.', 'success');
+    setTimeout(hideProgress, 700);
+    toast('🚀','Pushed! Site updates in ~1 min.','success');
   } catch(e) {
-    toast('❌', 'Network error: ' + e.message, 'error');
+    toast('❌','Network error: '+e.message,'error');
     hideProgress();
   }
 }
 
-// ══════════════════════════════════════════════
-//  NEW PAGE
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
+//  CREATE NEW PAGE
+// ─────────────────────────────────────────────
 async function createNewPage() {
   const title   = v('new-page-title');
   const slug    = v('new-page-slug');
   const content = document.getElementById('new-page-content').value;
-  if (!title || !slug) { toast('⚠️', 'Please fill in title and slug.', 'error'); return; }
+  if (!title || !slug) { toast('⚠️','Fill in title and slug first.','error'); return; }
 
   const pageHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(title)} — Mohamed Barakat</title>
-<link rel="stylesheet" href="style.css">
+<title>${title} — Mohamed Barakat</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+  body{font-family:system-ui,sans-serif;background:#0f0a14;color:#e8e0f0;margin:0;}
+  nav{padding:1.2rem 2rem;border-bottom:1px solid rgba(201,169,110,.15);}
+  nav a{color:#c9a96e;font-weight:700;text-decoration:none;}
+  main{max-width:900px;margin:3rem auto;padding:0 1.5rem;}
+</style>
 </head>
 <body>
-<nav style="padding:1rem 2rem;">
-  <a href="/" style="color:#c9a96e;font-weight:700;text-decoration:none;">← Back to Portfolio</a>
-</nav>
+<nav><a href="/">← Back to Portfolio</a></nav>
+<main>
 ${content}
+</main>
 </body>
 </html>`;
 
   const encoded = btoa(unescape(encodeURIComponent(pageHTML)));
   showProgress(30);
   try {
-    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${slug}.html`, {
-      method: 'PUT',
-      headers: { Authorization:`Bearer ${GH_TOKEN}`, 'Content-Type':'application/json', 'X-GitHub-Api-Version':'2022-11-28' },
-      body: JSON.stringify({ message: `Add page: ${title}`, content: encoded })
-    });
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${slug}.html`,
+      {
+        method: 'PUT',
+        headers: { Authorization:`Bearer ${GH_TOKEN}`, 'Content-Type':'application/json', 'X-GitHub-Api-Version':'2022-11-28' },
+        body: JSON.stringify({ message: `Add page: ${title}`, content: encoded }),
+      }
+    );
     showProgress(90);
-    if (!res.ok) { const e = await res.json(); toast('❌', e.message, 'error'); hideProgress(); return; }
+    if (!res.ok) { const e=await res.json().catch(()=>({})); toast('❌',e.message||res.status,'error'); hideProgress(); return; }
     setTimeout(hideProgress, 400);
-    toast('✅', `Page "${title}" created at /${slug}.html`, 'success');
+    toast('✅',`Page created: /${slug}.html`,'success');
 
-    // add to list
     const list = document.getElementById('page-list');
     const d = document.createElement('div');
     d.className = 'page-item';
-    d.innerHTML = `<div class="page-item-info"><div class="page-item-name">${esc(title)}</div><div class="page-item-slug">${slug}.html</div></div><span style="font-size:.75rem;color:var(--green);">● Created</span>`;
+    d.innerHTML = `<div><div class="page-item-name">${title}</div><div class="page-item-slug">${slug}.html</div></div><span style="font-size:.75rem;color:var(--green);">● Created</span>`;
     list.appendChild(d);
 
-    document.getElementById('new-page-title').value = '';
-    document.getElementById('new-page-slug').value = '';
-    document.getElementById('new-page-content').value = '';
-  } catch(e) { toast('❌', e.message, 'error'); hideProgress(); }
+    ['new-page-title','new-page-slug'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('new-page-content').value='';
+  } catch(e) { toast('❌',e.message,'error'); hideProgress(); }
 }
 
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
 //  UTILS
-// ══════════════════════════════════════════════
-function v(id) { return document.getElementById(id)?.value ?? ''; }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escHtml(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// ─────────────────────────────────────────────
+function v(id)    { return document.getElementById(id)?.value ?? ''; }
+function esc(s)   { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function xss(s)   { return String(s||'').replace(/"/g,'&#34;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function toast(icon, msg, type='') {
   const t = document.getElementById('toast');
-  t.querySelector('.toast-icon').textContent = icon;
-  document.getElementById('toast-msg').textContent = msg;
-  t.className = 'toast show ' + type;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => { t.className = 'toast'; }, 4000);
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent  = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(t._tid);
+  t._tid = setTimeout(()=>{ t.className='toast'; }, 4500);
 }
-
 function showProgress(pct) {
-  const bar = document.getElementById('progress-bar');
-  const fill = document.getElementById('progress-fill');
-  bar.classList.add('show');
-  fill.style.width = pct + '%';
+  document.getElementById('progress-bar').classList.add('show');
+  document.getElementById('progress-fill').style.width = pct+'%';
 }
 function hideProgress() {
   document.getElementById('progress-bar').classList.remove('show');
-  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('progress-fill').style.width='0%';
 }
 </script>
 </body>
