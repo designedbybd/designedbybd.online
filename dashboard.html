@@ -616,7 +616,7 @@ function build() {
   });
   sBlock += `    </div>\n    <div class="hero-bg-overlay"></div>\n    <!-- Progress bar -->\n    <div class="hero-slider-progress" id="heroProgress"></div>\n    <!-- Dots -->\n    <div class="hero-slider-dots" id="heroDots"></div>\n  </div>`;
   h = h.replace(
-    /<!-- Background Slider -->[\s\S]*?id="heroDots"><\/div>\n  <\/div>/,
+    /<!-- Background Slider -->[\s\S]*?id="heroDots"><\/div>\s*<\/div>/,
     sBlock
   );
 
@@ -831,7 +831,16 @@ function $(id)  { return document.getElementById(id); }
 function e(s)   { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function q(s)   { return String(s||'').replace(/"/g,'&#34;').replace(/</g,'&lt;'); }
 function b64dec(s) {
-  return decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+  try {
+    return decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+  } catch(e) {
+    const binString = atob(s.replace(/\n/g, ''));
+    const bytes = new Uint8Array(binString.length);
+    for (let i = 0; i < binString.length; i++) {
+        bytes[i] = binString.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+  }
 }
 function toast(icon, msg, cls='') {
   $('ticon').textContent = icon;
@@ -845,6 +854,16 @@ function prog(pct) {
   const bar = $('pbar'), fill = $('pfill');
   if (pct === 0) { bar.classList.remove('on'); fill.style.width='0%'; }
   else { bar.classList.add('on'); fill.style.width = pct+'%'; }
+}
+
+/* ─── GITHUB API ─── */
+async function ghGet(file, token) {
+  return fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  });
 }
 </script>
 </body>
