@@ -18,10 +18,10 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 #login{display:flex;align-items:center;justify-content:center;min-height:100vh;
   background:radial-gradient(ellipse at 30% 40%,rgba(155,111,196,.18),transparent 65%),
              radial-gradient(ellipse at 70% 70%,rgba(201,169,110,.10),transparent 60%),var(--bg);}
-.lbox{background:var(--surface);border:1px solid var(--border);border-radius:1rem;
-  padding:2.5rem;width:min(400px,92vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
-.lbox h2{color:var(--acc);font-size:1.4rem;margin-bottom:.3rem;}
-.lbox p{font-size:.8rem;color:var(--muted);margin-bottom:2rem;}
+.lbox{background:rgba(26,16,37,.8);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(201,169,110,.25);border-radius:1.2rem;
+  padding:3rem 2.5rem;width:min(420px,92vw);box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,0.05);}
+.lbox h2{color:var(--text);font-size:1.6rem;margin-bottom:.3rem;font-weight:700;}
+.lbox p{font-size:.85rem;color:var(--muted);margin-bottom:2rem;}
 .fl{margin-bottom:1.1rem;}
 .fl label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em;}
 .fl input{width:100%;padding:.72rem 1rem;border-radius:var(--r);background:var(--bg);
@@ -175,8 +175,11 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-fil
 <!-- ═══ LOGIN ═══ -->
 <div id="login">
   <div class="lbox">
-    <h2>⬡ Dashboard</h2>
-    <p>Mohamed Barakat — Site Control Panel</p>
+    <div style="text-align:center; margin-bottom: 1.5rem;">
+      <img src="https://designedbybd.online/mohamed%20barakat%20logo.svg" alt="Mohamed Barakat Logo" style="max-width: 140px; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(201,169,110,0.3));">
+      <h2 style="color:var(--text); font-size:1.5rem; letter-spacing: 0.05em; margin-bottom:0.2rem;">Welcome Back</h2>
+      <p style="font-size:0.85rem; color:var(--muted); margin:0;">Site Control Panel</p>
+    </div>
     <div class="fl">
       <label>GitHub Token</label>
       <input type="password" id="itoken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
@@ -186,7 +189,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-fil
       <input type="password" id="ipass" placeholder="Your password"
         onkeydown="if(event.key==='Enter')login()">
     </div>
-    <button class="btn-p" onclick="login()">Login →</button>
+    <button class="btn-p" onclick="login()" style="margin-top: 0.5rem; font-size: 1rem; padding: 0.9rem; border-radius: 0.5rem; letter-spacing: 0.03em; box-shadow: 0 4px 15px rgba(201,169,110,.25);">Login to Dashboard <span style="margin-left:5px;">→</span></button>
     <div id="lerr"></div>
     <p class="lhint">Token stored in session only — never saved externally.</p>
   </div>
@@ -228,7 +231,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-fil
         <div class="ctitle">Background Slides (up to 4 images)</div>
         <div id="slides-wrap"></div>
         <p style="font-size:.73rem;color:var(--muted);margin-top:.5rem;">
-          💡 Paste a direct public image URL. Leave empty to show gradient background.
+          💡 Paste a direct public image URL. Leave empty to show gradient background.<br>
+          <span style="color:var(--acc);">✨ Ideal image size: <strong>1920x1080px</strong> (16:9 ratio) for best quality.</span>
         </p>
       </div>
     </div>
@@ -432,7 +436,8 @@ function renderSlides() {
     d.innerHTML = `
       <div class="sn">${i+1}</div>
       <div class="sf">
-        <input type="text" placeholder="Image URL (empty = gradient)" value="${q(s.url)}"
+        <label style="font-size:0.7rem;color:var(--muted);margin-bottom:0.3rem;display:block;">Image URL <span style="color:var(--acc);">(Ideal Size: 1920x1080px)</span></label>
+        <input type="text" placeholder="https://... (empty = gradient)" value="${q(s.url)}"
           oninput="bgSlides[${i}].url=this.value;renderSlides()">
         <input type="text" placeholder="Alt text" value="${q(s.alt)}"
           oninput="bgSlides[${i}].alt=this.value">
@@ -458,7 +463,7 @@ function renderWorks() {
       <input value="${q(k.title)}" oninput="works[${i}].title=this.value">
       <label>Subtitle</label>
       <input value="${q(k.sub)}" oninput="works[${i}].sub=this.value">
-      <label>Image URL</label>
+      <label>Image URL <span style="color:var(--acc);font-weight:normal;margin-left:4px;">(Ideal Size: 1920x1080px or 16:9 ratio)</span></label>
       <input value="${q(k.img)}" placeholder="https://…" oninput="works[${i}].img=this.value;renderWorks()">
       <label>Behance / Project Link</label>
       <input value="${q(k.link)}" placeholder="https://behance.net/…" oninput="works[${i}].link=this.value">`;
