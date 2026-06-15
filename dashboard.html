@@ -35,21 +35,22 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 
 /* DASH */
 #dash{display:none;}
-nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;
-  padding:0 1rem;height:56px;overflow-x:auto;}
-.nlogo{font-weight:700;color:var(--acc);white-space:nowrap;margin-right:auto;font-size:.95rem;}
-.ntab{background:none;border:none;color:var(--muted);font-size:.78rem;padding:.38rem .65rem;
-  border-radius:.35rem;cursor:pointer;white-space:nowrap;transition:all .2s;}
+nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(201,169,110,.15);box-shadow:0 4px 20px rgba(0,0,0,.4);display:flex;align-items:center;gap:.6rem;
+  padding:0 1.2rem;height:68px;overflow-x:auto;scrollbar-width:none;}
+nav::-webkit-scrollbar{display:none;}
+.nlogo{display:flex;align-items:center;font-weight:700;color:var(--acc);white-space:nowrap;margin-right:auto;font-size:1.1rem;}
+.ntab{background:none;border:none;color:var(--muted);font-size:.8rem;padding:.45rem .8rem;
+  border-radius:2rem;cursor:pointer;white-space:nowrap;transition:all .2s;}
 .ntab:hover,.ntab.on{background:rgba(201,169,110,.12);color:var(--acc);}
-.nsave{background:var(--acc);color:#1a0d00;border:none;padding:.4rem .95rem;
-  border-radius:var(--r);font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
-.nsave:hover{opacity:.85;}
+.nsave{background:var(--acc);color:#1a0d00;border:none;padding:.5rem 1.1rem;
+  border-radius:2rem;font-weight:700;font-size:.82rem;cursor:pointer;white-space:nowrap;transition:all .2s;box-shadow:0 4px 15px rgba(201,169,110,.2);}
+.nsave:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,169,110,.3);}
 .nout{background:none;border:1px solid rgba(224,85,85,.35);color:var(--red);
   padding:.36rem .7rem;border-radius:var(--r);font-size:.76rem;cursor:pointer;white-space:nowrap;}
 .nout:hover{background:rgba(224,85,85,.1);}
 
-.body{padding:1.8rem 1.2rem;max-width:1080px;margin:0 auto;}
+.body{padding:2rem 1.2rem;max-width:1120px;margin:0 auto;}
 
 /* PROGRESS */
 .pbar{height:3px;background:rgba(201,169,110,.1);display:none;margin-bottom:1.4rem;border-radius:2px;overflow:hidden;}
@@ -61,7 +62,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-fil
 .ptitle{font-size:1.05rem;font-weight:700;color:var(--acc);margin-bottom:1.4rem;display:flex;align-items:center;gap:.5rem;}
 
 /* CARDS */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;margin-bottom:1.1rem;}
+.card{background:var(--surface);border:1px solid rgba(201,169,110,.1);border-radius:1rem;padding:1.6rem;margin-bottom:1.3rem;box-shadow:0 8px 30px rgba(0,0,0,.25);}
 .ctitle{font-size:.76rem;font-weight:600;color:var(--acc2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.9rem;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:.9rem;}
 @media(max-width:560px){.row2{grid-template-columns:1fr;}}
@@ -198,7 +199,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,10,20,.95);backdrop-fil
 <!-- ═══ DASHBOARD ═══ -->
 <div id="dash">
   <nav>
-    <span class="nlogo">⬡ Dashboard</span>
+    <div class="nlogo">
+      <img src="https://designedbybd.online/mohamed%20barakat%20logo.svg" alt="MB" style="height:28px;margin-right:10px;filter:drop-shadow(0 0 5px rgba(201,169,110,0.3));">
+      Dashboard
+    </div>
     <button class="ntab on"  onclick="tab(this,'hero')">Hero</button>
     <button class="ntab"     onclick="tab(this,'work')">Best Work</button>
     <button class="ntab"     onclick="tab(this,'svc')">Services</button>
